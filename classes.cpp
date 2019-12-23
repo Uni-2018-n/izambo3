@@ -1,5 +1,11 @@
 #include "classes.h"
 
+
+string Object::toString(){
+	return id + " ";
+}
+
+///////////////////////////////////////String
 String::String(string temp):
 txt(temp){
 
@@ -31,116 +37,190 @@ void String::print(){
 
 
 
-class Employee{
-	string name;
+///////////////////////////////////////Employee
+Employee::Employee(){
+	cout << "Employee just created" << endl;
+}
 
-public:
-	virtual void workOn();
-	virtual bool report();
-};
+Employee::~Employee(){
+	cout << "Employee to be destroyed" << endl;
+}
+
+void Employee::workOn(){
+
+}
+bool Employee::report(){
+	return false;
+}
+///////////////////////////////////////SecurityEmployee
+SecurityEmployee::SecurityEmployee(){
+	cout << "SecurityEmployee just created" << endl;
+}
+
+SecurityEmployee::~SecurityEmployee(){
+	cout << "SecurityEmployee to be destroyed" << endl;
+}
+
+///////////////////////////////////////MaintenanceEmployee
+MaintenanceEmployee::MaintenanceEmployee(){
+	cout << "MaintenanceEmployee just created" << endl;
+}
+
+MaintenanceEmployee::~MaintenanceEmployee(){
+	cout << "MaintenanceEmployee to be destroyed" << endl;
+}
+
+///////////////////////////////////////CleaningEployee
+CleaningEployee::CleaningEployee(){
+	cout << "CleaningEployee just created" << endl;
+}
+
+CleaningEployee::~CleaningEployee(){
+	cout << "CleaningEployee to be destroyed" << endl;
+}
+
+///////////////////////////////////////PlaneComponent
+PlaneComponent::PlaneComponent(){
+	cout << "PlaneComponent just created" << endl;
+}
+
+PlaneComponent::~PlaneComponent(){
+	cout << "PlaneComponent to be destroyed" << endl;
+}
 
 
-class SecurityEmployee: public Employee{//all
-public:
-	void workOn(CargoBay* work_place);
-	void workOn(EquipmentCompartment* work_place);
-	void workOn(PassengerCompartment* work_place);
+///////////////////////////////////////PassengerCompartment
+PassengerCompartment::PassengerCompartment(){
+	Sub_PassCompartment = NULL;
+	SecWorker= false;
+	CleanWorker = false;
+	cout << "PassengerCompartment just created" << endl;
+}
 
-	bool report();
-};
-
-class MaintenanceEmployee: public Employee{//cargobay, EquipmentCompartment
-public:
-	bool report();
-};
-
-class CleaningEployee: public Employee{//CargoBay, PassengerCompartment
-public:
-
-	bool report();
-};
-
-
-
-class PlaneComponent{
-public:
-	bool ready_check();
-	string toString();
-	void process(Employee worker);
-};
-
-class PassengerCompartment: public PlaneComponent{
-	PassengerCompartment* Sub_PassCompartment;
-public:
-	PassengerCompartment();
-	bool ready_check();
-	void toString();
-	void process(SecurityEmployee worker);
-	void process(CleaningEployee worker);
-};
+PassengerCompartment::~PassengerCompartment(){
+	cout << "PassengerCompartment to be destroyed" << endl;
+}
 
 bool PassengerCompartment::ready_check(){ //TIS READY_CHECK PREPEI NA PERASOUN OLOI GIA NA EINAI READY
-	toString();
-	cout << "PassengerCompartment OK!" << endl;
-	if(Sub_PassCompartment != NULL)
-	cout << "Sub: ";
-	Sub_PassCompartment->ready_check();
+	if(SecWorker && CleanWorker){
+		//toString();
+		cout << "PassengerCompartment OK!" << endl;
+		if(Sub_PassCompartment != NULL)
+		cout << "Sub: ";
+		Sub_PassCompartment->ready_check();
+		return true;
+	}else{
+		return false;
+	}
 }
 
-class PrivateCompartment: public PlaneComponent{
-public:
-	PrivateCompartment();
-	bool ready_check();
-	void toString();
-	void process(SecurityEmployee worker);
-	void process(CleaningEployee worker);
-};
+void PassengerCompartment::process(SecurityEmployee worker){
+	SecWorker= true;
+}
+
+void PassengerCompartment::process(CleaningEployee worker){
+	CleanWorker=true;
+}
+
+///////////////////////////////////////PrivateCompartment
+PrivateCompartment::PrivateCompartment(){
+	SecWorker= false;
+	CleanWorker= false;
+	cout << "PrivateCompartment just created" << endl;
+}
+
+PrivateCompartment::~PrivateCompartment(){
+	cout << "PrivateCompartment to be destroyed" << endl;
+}
 
 bool PrivateCompartment::ready_check(){
-	toString();
-	cout << "PrivateCompartment OK!" << endl;
+	if(SecWorker && CleanWorker){
+		//toString();
+		cout << "PrivateCompartment OK!" << endl;
+		return true;
+	}else{
+		return false;
+	}
 }
 
-class EquipmentCompartment: public PlaneComponent{
-public:
-	EquipmentCompartment();
-	bool ready_check();
-	void toString();
-	void process(SecurityEmployee worker);
-	void process(MaintenanceEmployee worker);
-};
+void PrivateCompartment::process(SecurityEmployee worker){
+	SecWorker = true;
+}
+
+void PrivateCompartment::process(CleaningEployee worker){
+	CleanWorker = true;
+}
+
+///////////////////////////////////////EquipmentCompartment
+EquipmentCompartment::EquipmentCompartment(){
+	SecWorker= false;
+	MaintWorker= false;
+	cout << "EquipmentCompartment just created" << endl;
+}
+
+EquipmentCompartment::~EquipmentCompartment(){
+	cout << "EquipmentCompartment to be destroyed" << endl;
+}
 
 bool EquipmentCompartment::ready_check(){
-	toString();
-	cout << "EquipmentCompartment OK!" << endl;
+	if(SecWorker && MaintWorker){
+		//toString();
+		cout << "EquipmentCompartment OK!" << endl;
+		return true;
+	}else{
+		return false;
+	}
 }
 
-class CargoBay: public PlaneComponent{
-	EquipmentCompartment equipment_space;
-public:
-	CargoBay();
-	bool ready_check();
-	void toString();
-	void process(SecurityEmployee worker);
-	void process(CleaningEployee worker);
-	void process(MaintenanceEmployee worker);
-};
+void EquipmentCompartment::process(SecurityEmployee worker){
+	SecWorker= true;
+}
+
+void 	EquipmentCompartment::process(MaintenanceEmployee worker){
+	MaintWorker = true;
+}
+
+///////////////////////////////////////CargoBay
+CargoBay::CargoBay(){
+	SecWorker= false;
+	CleanWorker= false;
+	MaintWorker= false;
+	cout << "CargoBay just created" << endl;
+}
+
+CargoBay::~CargoBay(){
+	cout << "CargoBay to be destroyed";
+}
 
 bool CargoBay::ready_check(){
-	toString();
-	cout << "CargoBay OK!" << endl;
+	if(SecWorker && CleanWorker && MaintWorker){
+		//toString();
+		cout << "CargoBay OK!" << endl;
+		return true;
+	}else{
+		return false;
+	}
 }
 
-class Plane{
-	string title;
-	int max_pl;
-	CargoBay cargo;
-	EquipmentCompartment e1;
-	EquipmentCompartment e2;
-	EquipmentCompartment e3;
-	int curr_pl;
-public:
-	void toString();
-	bool ready_check();
-	void process();
-};
+void CargoBay::process(SecurityEmployee worker){
+	SecWorker = true;
+}
+
+void CargoBay::process(CleaningEployee worker){
+	CleanWorker = true;
+}
+
+void CargoBay::process(MaintenanceEmployee worker){
+	MaintWorker = true;
+}
+
+
+///////////////////////////////////////Plane
+Plane::Plane(string titl, int cur_pl, int ma_pl):
+title(titl), max_pl(ma_pl), curr_pl(cur_pl){
+	cout << "Plane just created" << endl;
+}
+
+Plane::~Plane(){
+	cout << "Plane to be destroyed" << endl;
+}

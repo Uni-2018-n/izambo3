@@ -55,9 +55,9 @@ class SecurityEmployee: public Employee{//all
 public:
 	SecurityEmployee();
 	~SecurityEmployee();
-	// void workOn(CargoBay work_place);
-	// void workOn(EquipmentCompartment work_place);
-	// void workOn(PassengerCompartment work_place);
+	void workOn(CargoBay& work_place);
+	void workOn(EquipmentCompartment& work_place);
+	void workOn(PassengerCompartment& work_place);
 	// bool report();
 };
 
@@ -66,6 +66,8 @@ class MaintenanceEmployee: public Employee{//cargobay, EquipmentCompartment
 public:
 	MaintenanceEmployee();
 	~MaintenanceEmployee();
+	void workOn(CargoBay& work_place);
+	void workOn(EquipmentCompartment& work_place);
 	//bool report();
 };
 
@@ -74,6 +76,8 @@ class CleaningEployee: public Employee{//CargoBay, PassengerCompartment
 public:
 	CleaningEployee();
 	~CleaningEployee();
+	void workOn(CargoBay& work_place);
+	void workOn(PassengerCompartment& work_place);
 	//bool report();
 };
 
@@ -97,8 +101,8 @@ public:
 	~PassengerCompartment();
 	bool ready_check();
 	//void toString();
-	void process(SecurityEmployee worker);
-	void process(CleaningEployee worker);
+	void process(SecurityEmployee& worker);
+	void process(CleaningEployee& worker);
 };
 
 ///////////////////////////////////////PrivateCompartment
@@ -110,12 +114,12 @@ public:
 	~PrivateCompartment();
 	bool ready_check();
 	//void toString();
-	void process(SecurityEmployee worker);
-	void process(CleaningEployee worker);
+	void process(SecurityEmployee& worker);
+	void process(CleaningEployee& worker);
 };
 
 ///////////////////////////////////////EquipmentCompartment
-class EquipmentCompartment: public PlaneComponent{
+class EquipmentCompartment: public PrivateCompartment{
 	bool SecWorker;
 	bool MaintWorker;
 public:
@@ -123,12 +127,12 @@ public:
 	~EquipmentCompartment();
 	bool ready_check();
 	//void toString();
-	void process(SecurityEmployee worker);
-	void process(MaintenanceEmployee worker);
+	void process(SecurityEmployee& worker);
+	void process(MaintenanceEmployee& worker);
 };
 
 ///////////////////////////////////////CargoBay
-class CargoBay: public PlaneComponent{
+class CargoBay: public PrivateCompartment{
 	EquipmentCompartment equipment_space;
 	bool SecWorker;
 	bool CleanWorker;
@@ -138,24 +142,26 @@ public:
 	~CargoBay();
 	bool ready_check();
 	//void toString();
-	void process(SecurityEmployee worker);
-	void process(CleaningEployee worker);
-	void process(MaintenanceEmployee worker);
+	void process(SecurityEmployee& worker);
+	void process(CleaningEployee& worker);
+	void process(MaintenanceEmployee& worker);
 };
 
 ///////////////////////////////////////Plane
 class Plane{
 	string title;
 	int max_pl;
-	CargoBay cargo;
-	EquipmentCompartment e1;
-	EquipmentCompartment e2;
-	EquipmentCompartment e3;
-	int curr_pl;
+	CargoBay* cargo;
+	EquipmentCompartment* e1;
+	EquipmentCompartment* e2;
+	EquipmentCompartment* e3;
+	PassengerCompartment** pl_PassComp;
 public:
-	Plane(string titl, int cur_pl, int ma_pl=40);
+	Plane(string titl, int ma_pl=40);
 	~Plane();
 	//void toString();
-	//bool ready_check();
-	//void process();
+	bool ready_check();
+	void process(SecurityEmployee& worker);
+	void process(MaintenanceEmployee& worker);
+	void process(CleaningEployee& worker);
 };

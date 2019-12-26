@@ -62,13 +62,27 @@ SecurityEmployee::~SecurityEmployee(){
 }
 
 void SecurityEmployee::workOn(CargoBay& work_place){
+	cout << "I SecurityEmployee, started working into a Cargo Bay" << endl;
 	work_place.process(*this);
 }
 void SecurityEmployee:: workOn(EquipmentCompartment& work_place){
+	cout << "I SecurityEmployee, started working into a Equipment Compartment" << endl;
 	work_place.process(*this);
 }
 void SecurityEmployee::workOn(PassengerCompartment& work_place){
+	cout << "I SecurityEmployee, started working into a Passenger Compartment" << endl;
 	work_place.process(*this);
+}
+
+void SecurityEmployee::report(CargoBay& work_place){
+	cout << "SecurityEmployee keep working on CargoBay" << endl;
+}
+void SecurityEmployee::report(EquipmentCompartment& work_place){
+	cout << "SecurityEmployee keep working on EquipmentCompartment" << endl;
+}
+
+void SecurityEmployee::report(PassengerCompartment& work_place){
+	cout << "SecurityEmployee keep working on PassengerCompartment" << endl;
 }
 
 ///////////////////////////////////////MaintenanceEmployee
@@ -81,10 +95,19 @@ MaintenanceEmployee::~MaintenanceEmployee(){
 }
 
 void MaintenanceEmployee:: workOn(CargoBay& work_place){
+	cout << "I MaintenanceEmployee, started working into a Cargo Bay" << endl;
 	work_place.process(*this);
 }
 void MaintenanceEmployee::workOn(EquipmentCompartment& work_place){
+	cout << "I MaintenanceEmployee, started working into a Equipment Compartment" << endl;
 	work_place.process(*this);
+}
+
+void MaintenanceEmployee::report(CargoBay& work_place){
+	cout << "MaintenanceEmployee keep working on CargoBay" << endl;
+}
+void MaintenanceEmployee::report(EquipmentCompartment& work_place){
+	cout << "MaintenanceEmployee keep working on EquipmentCompartment" << endl;
 }
 
 ///////////////////////////////////////CleaningEployee
@@ -97,10 +120,20 @@ CleaningEployee::~CleaningEployee(){
 }
 
 void CleaningEployee:: workOn(CargoBay& work_place){
+	cout << "I CleaningEployee, started working into a Cargo Bay" << endl;
 	work_place.process(*this);
 }
 void CleaningEployee::workOn(PassengerCompartment& work_place){
+	cout << "I CleaningEployee, started working into a Passenger Compartment" << endl;
 	work_place.process(*this);
+}
+
+void CleaningEployee::report(CargoBay& work_place){
+	cout << "CleaningEployee keep working on CargoBay" << endl;
+}
+void CleaningEployee::report(PassengerCompartment& work_place){
+
+	cout << "CleaningEployee keep working on PassengerCompartment" << endl;
 }
 
 ///////////////////////////////////////PlaneComponent
@@ -115,7 +148,7 @@ PlaneComponent::~PlaneComponent(){
 
 ///////////////////////////////////////PassengerCompartment
 PassengerCompartment::PassengerCompartment(){
-	Sub_PassCompartment = NULL;
+	Sub_PassCompartment = NULL;//TODO make this 50/50 chance
 	SecWorker= false;
 	CleanWorker = false;
 	cout << "PassengerCompartment just created" << endl;
@@ -125,7 +158,7 @@ PassengerCompartment::~PassengerCompartment(){
 	cout << "PassengerCompartment to be destroyed" << endl;
 }
 
-bool PassengerCompartment::ready_check(){ //TIS READY_CHECK PREPEI NA PERASOUN OLOI GIA NA EINAI READY
+bool PassengerCompartment::ready_check(){
 	if(SecWorker && CleanWorker){
 		//toString();
 		cout << "PassengerCompartment OK!" << endl;
@@ -258,13 +291,16 @@ title(titl), max_pl(ma_pl){
 }
 
 Plane::~Plane(){
-	cout << "Plane to be destroyed" << endl;
 	delete cargo;
 	delete e1;
 	delete e2;
 	delete e3;
+	for(int i=0;i<max_pl/50;i++){
+		delete pl_PassComp[i];
+	}
 	delete[] pl_PassComp;
 
+	cout << "Plane to be destroyed" << endl;
 }
 
 bool Plane::ready_check(){
@@ -292,43 +328,54 @@ bool Plane::ready_check(){
 void Plane::process(SecurityEmployee& worker){
 	if(!cargo->ready_check()){
 		worker.workOn(*cargo);
+		worker.report(*cargo);
 	}
 	if(!e1->ready_check()){
 		worker.workOn(*e1);
+		worker.report(*e1);
 	}
 	if(!e2->ready_check()){
 		worker.workOn(*e2);
+		worker.report(*e2);
 	}
 	if(!e3->ready_check()){
 		worker.workOn(*e3);
+		worker.report(*e3);
 	}
 	for(int i=0;i<4;i++){
 		if(!pl_PassComp[i]->ready_check()){
 			worker.workOn(*pl_PassComp[i]);
+			worker.report(*pl_PassComp[i]);
 		}
 	}
 }
 void Plane::process(MaintenanceEmployee& worker){
 	if(!cargo->ready_check()){
 		worker.workOn(*cargo);
+		worker.report(*cargo);
 	}
 	if(!e1->ready_check()){
 		worker.workOn(*e1);
+		worker.report(*e1);
 	}
 	if(!e2->ready_check()){
 		worker.workOn(*e2);
+		worker.report(*e2);
 	}
 	if(!e3->ready_check()){
 		worker.workOn(*e3);
+		worker.report(*e3);
 	}
 }
 void Plane::process(CleaningEployee& worker){
 	if(!cargo->ready_check()){
 		worker.workOn(*cargo);
+		worker.report(*cargo);
 	}
 	for(int i=0;i<4;i++){
 		if(!pl_PassComp[i]->ready_check()){
 			worker.workOn(*pl_PassComp[i]);
+			worker.report(*pl_PassComp[i]);
 		}
 	}
 }

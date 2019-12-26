@@ -19,6 +19,6 @@ int main(){
 	if(my_plane.ready_check()){
 		cout << "Plane ready to take off!!" << endl;
 	}
-	cout << "PLANE DESTRUCTOR" << endl;
+	cout << endl << "PLANE DESTRUCTOR" << endl;
 	return 0;
 }

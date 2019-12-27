@@ -92,10 +92,10 @@ public:
 class PlaneComponent{
 public:
 	PlaneComponent();
-	~PlaneComponent();
-	//virtual bool ready_check();
-	//virtual string toString();
-	//virtual void process(Employee worker);
+	virtual ~PlaneComponent();
+	//virtual bool ready_check() = 0;
+	//virtual string toString() = 0;
+	//virtual void process(Employee worker) = 0;
 };
 
 ///////////////////////////////////////PassengerCompartment

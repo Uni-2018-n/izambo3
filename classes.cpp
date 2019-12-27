@@ -35,8 +35,6 @@ void String::print(){
 	cout << txt << endl;
 }
 
-
-
 ///////////////////////////////////////Employee
 Employee::Employee(){
 	cout << "Employee just created" << endl;
@@ -44,13 +42,6 @@ Employee::Employee(){
 
 Employee::~Employee(){
 	cout << "Employee to be destroyed" << endl;
-}
-
-void Employee::workOn(){
-
-}
-bool Employee::report(){
-	return false;
 }
 ///////////////////////////////////////SecurityEmployee
 SecurityEmployee::SecurityEmployee(){
@@ -145,7 +136,6 @@ PlaneComponent::~PlaneComponent(){
 	cout << "PlaneComponent to be destroyed" << endl;
 }
 
-
 ///////////////////////////////////////PassengerCompartment
 PassengerCompartment::PassengerCompartment(){
 	Sub_PassCompartment = NULL;//TODO make this 50/50 chance
@@ -170,6 +160,10 @@ bool PassengerCompartment::ready_check(){
 	}else{
 		return false;
 	}
+}
+
+string PassengerCompartment::toString(){
+	return " ";
 }
 
 void PassengerCompartment::process(SecurityEmployee& worker){
@@ -201,6 +195,10 @@ bool PrivateCompartment::ready_check(){
 	}
 }
 
+string PrivateCompartment::toString(){
+return " ";
+}
+
 void PrivateCompartment::process(SecurityEmployee& worker){
 	SecWorker = true;
 }
@@ -228,6 +226,10 @@ bool EquipmentCompartment::ready_check(){
 	}else{
 		return false;
 	}
+}
+
+string EquipmentCompartment::toString(){
+return " ";
 }
 
 void EquipmentCompartment::process(SecurityEmployee& worker){
@@ -258,6 +260,10 @@ bool CargoBay::ready_check(){
 	}else{
 		return false;
 	}
+}
+
+string CargoBay::toString(){
+return " ";
 }
 
 void CargoBay::process(SecurityEmployee& worker){
@@ -349,6 +355,11 @@ void Plane::process(SecurityEmployee& worker){
 		}
 	}
 }
+
+void Plane::toString(){
+	return;
+}
+
 void Plane::process(MaintenanceEmployee& worker){
 	if(!cargo->ready_check()){
 		worker.workOn(*cargo);

@@ -3,6 +3,7 @@ ITEM = main
 
 run : compile
 	./$(ITEM)
+	make clean
 
 debug : $(ITEM)
 	gdb $(ITEM)
@@ -11,7 +12,8 @@ compile : $(SOURCE)
 	g++ -std=c++11 -Wall -g3 -o $(ITEM) $(SOURCE)
 
 clean :
-	-rm $(ITEM)
+	-rm -rf $(ITEM)
+	-rm -rf *.o
 
 compress: $(SOURCE)
 	rm -r $(ITEM)

@@ -45,9 +45,14 @@ class Employee{
 	string name;
 public:
 	Employee();
-	~Employee();
-	virtual void workOn();
-	virtual bool report();
+	virtual ~Employee();
+	// virtual void workOn(CargoBay& work_place)=0;
+	// virtual void workOn(EquipmentCompartment& work_place)=0;
+	// virtual void workOn(PassengerCompartment& work_place)=0;
+	//
+	// virtual void report(CargoBay& work_place)=0;
+	// virtual void report(EquipmentCompartment& work_place)=0;
+	// virtual void report(PassengerCompartment& work_place)=0;
 };
 
 ///////////////////////////////////////SecurityEmployee
@@ -71,7 +76,6 @@ public:
 	~MaintenanceEmployee();
 	void workOn(CargoBay& work_place);
 	void workOn(EquipmentCompartment& work_place);
-
 	void report(CargoBay& work_place);
 	void report(EquipmentCompartment& work_place);
 };
@@ -83,7 +87,6 @@ public:
 	~CleaningEployee();
 	void workOn(CargoBay& work_place);
 	void workOn(PassengerCompartment& work_place);
-
 	void report(CargoBay& work_place);
 	void report(PassengerCompartment& work_place);
 };
@@ -93,9 +96,9 @@ class PlaneComponent{
 public:
 	PlaneComponent();
 	virtual ~PlaneComponent();
-	//virtual bool ready_check() = 0;
-	//virtual string toString() = 0;
-	//virtual void process(Employee worker) = 0;
+	// virtual bool ready_check() = 0;
+	// virtual string toString() = 0;
+	// virtual void process() = 0;
 };
 
 ///////////////////////////////////////PassengerCompartment
@@ -107,7 +110,7 @@ public:
 	PassengerCompartment();
 	~PassengerCompartment();
 	bool ready_check();
-	//void toString();
+	string toString();
 	void process(SecurityEmployee& worker);
 	void process(CleaningEployee& worker);
 };
@@ -120,7 +123,7 @@ public:
 	PrivateCompartment();
 	~PrivateCompartment();
 	virtual bool ready_check();
-	//void toString();
+	string toString();
 	virtual void process(SecurityEmployee& worker);
 	virtual void process(CleaningEployee& worker);
 };
@@ -133,7 +136,7 @@ public:
 	EquipmentCompartment();
 	~EquipmentCompartment();
 	bool ready_check();
-	//void toString();
+	string toString();
 	void process(SecurityEmployee& worker);
 	void process(MaintenanceEmployee& worker);
 };
@@ -148,7 +151,7 @@ public:
 	CargoBay();
 	~CargoBay();
 	bool ready_check();
-	//void toString();
+	string toString();
 	void process(SecurityEmployee& worker);
 	void process(CleaningEployee& worker);
 	void process(MaintenanceEmployee& worker);
@@ -166,8 +169,8 @@ class Plane{//anaktish twn timwn aytwn
 public:
 	Plane(string titl, int ma_pl=40);
 	~Plane();
-	//void toString();
 	bool ready_check();
+	void toString();
 	void process(SecurityEmployee& worker);
 	void process(MaintenanceEmployee& worker);
 	void process(CleaningEployee& worker);

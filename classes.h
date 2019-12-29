@@ -19,8 +19,10 @@ class Plane;
 
 ///////////////////////////////////////Object
 class Object{
-	int id;
 public:
+	static int id;//set private if dont want to print or use it
+	Object();
+	~Object();
 	void equal(Object sec);
 	void identical(Object sec);
 	void clone(Object sec);
@@ -41,7 +43,7 @@ public:
 };
 
 ///////////////////////////////////////Employee
-class Employee{
+class Employee: public Object{
 	string name;
 public:
 	Employee();
@@ -92,7 +94,7 @@ public:
 };
 
 ///////////////////////////////////////PlaneComponent
-class PlaneComponent{
+class PlaneComponent: public Object{
 public:
 	PlaneComponent();
 	virtual ~PlaneComponent();
@@ -158,7 +160,7 @@ public:
 };
 
 ///////////////////////////////////////Plane
-class Plane{//anaktish twn timwn aytwn
+class Plane: public Object{//anaktish twn timwn aytwn
 	string title;
 	int max_pl;
 	CargoBay* cargo;

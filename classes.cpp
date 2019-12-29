@@ -1,6 +1,16 @@
 #include "classes.h"
 
+int Object::id=0;
 
+///////////////////////////////////////Object
+Object::Object(){
+	id++;
+	cout << "Object just Created!" << endl;
+}
+
+Object::~Object(){
+	cout << "Object just destroyed!" << endl;
+}
 string Object::toString(){
 	return id + " ";
 }
@@ -37,7 +47,8 @@ void String::print(){
 
 ///////////////////////////////////////Employee
 Employee::Employee(){
-	cout << "Employee just created" << endl;
+	cout << "Employee just created";
+	cout << " Employee ID: " << id << endl;
 }
 
 Employee::~Employee(){
@@ -129,7 +140,8 @@ void CleaningEployee::report(PassengerCompartment& work_place){
 
 ///////////////////////////////////////PlaneComponent
 PlaneComponent::PlaneComponent(){
-	cout << "PlaneComponent just created" << endl;
+	cout << "PlaneComponent just created";
+	cout << " PlaneComponent ID: " << id << endl;
 }
 
 PlaneComponent::~PlaneComponent(){
@@ -282,7 +294,8 @@ void CargoBay::process(MaintenanceEmployee& worker){
 ///////////////////////////////////////Plane
 Plane::Plane(string titl, int ma_pl):
 title(titl), max_pl(ma_pl){
-	cout << "Plane just created" << endl;
+	cout << "Plane just created";
+	cout << " Plane with ID: " << id << endl;
 	cargo = new CargoBay();
 	e1= new EquipmentCompartment();
 	e2= new EquipmentCompartment();

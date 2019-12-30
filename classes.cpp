@@ -1,18 +1,25 @@
 #include "classes.h"
 
-int Object::id=0;
+int Object::temp_id=0;
 
 ///////////////////////////////////////Object
 Object::Object(){
-	id++;
+	id= temp_id++;
+	//temp_id++;
 	cout << "Object just Created!" << endl;
 }
 
 Object::~Object(){
 	cout << "Object just destroyed!" << endl;
 }
+
 string Object::toString(){
-	return id + " ";
+	return "Object, id= " + to_string(id) + ", ";
+}
+
+
+int Object::get_id(){
+	return id;
 }
 
 ///////////////////////////////////////String
@@ -46,16 +53,27 @@ void String::print(){
 }
 
 ///////////////////////////////////////Employee
-Employee::Employee(){
+Employee::Employee(string nam):
+name(nam){
 	cout << "Employee just created";
-	cout << " Employee ID: " << id << endl;
+	cout << " Employee ID: " << get_id() << endl;
 }
 
 Employee::~Employee(){
 	cout << "Employee to be destroyed" << endl;
 }
+
+string Employee::toString(){
+	string temp;
+	temp = temp + Object::toString();
+	temp = temp + "Employee, " + name + " , ";
+
+	return temp;
+}
+
 ///////////////////////////////////////SecurityEmployee
-SecurityEmployee::SecurityEmployee(){
+SecurityEmployee::SecurityEmployee(string nam):
+Employee(nam){
 	cout << "SecurityEmployee just created" << endl;
 }
 
@@ -87,8 +105,15 @@ void SecurityEmployee::report(PassengerCompartment& work_place){
 	cout << "SecurityEmployee keep working on PassengerCompartment" << endl;
 }
 
+string SecurityEmployee::toString(){
+	string temp;
+	temp = temp + Employee::toString();
+	temp = temp + "SecurityEmployee";
+	return temp;
+}
 ///////////////////////////////////////MaintenanceEmployee
-MaintenanceEmployee::MaintenanceEmployee(){
+MaintenanceEmployee::MaintenanceEmployee(string nam):
+Employee(nam){
 	cout << "MaintenanceEmployee just created" << endl;
 }
 
@@ -112,8 +137,16 @@ void MaintenanceEmployee::report(EquipmentCompartment& work_place){
 	cout << "MaintenanceEmployee keep working on EquipmentCompartment" << endl;
 }
 
+string MaintenanceEmployee::toString(){
+	string temp;
+	temp = temp + Employee::toString();
+	temp = temp + "MaintenanceEmployee";
+	return temp;
+}
+
 ///////////////////////////////////////CleaningEployee
-CleaningEployee::CleaningEployee(){
+CleaningEployee::CleaningEployee(string nam):
+Employee(nam){
 	cout << "CleaningEployee just created" << endl;
 }
 
@@ -138,14 +171,28 @@ void CleaningEployee::report(PassengerCompartment& work_place){
 	cout << "CleaningEployee keep working on PassengerCompartment" << endl;
 }
 
+string CleaningEployee::toString(){
+	string temp;
+	temp = temp + Employee::toString();
+	temp = temp + "CleaningEployee";
+	return temp;
+}
+
 ///////////////////////////////////////PlaneComponent
 PlaneComponent::PlaneComponent(){
 	cout << "PlaneComponent just created";
-	cout << " PlaneComponent ID: " << id << endl;
+	cout << " PlaneComponent ID: " << get_id() << endl;
 }
 
 PlaneComponent::~PlaneComponent(){
 	cout << "PlaneComponent to be destroyed" << endl;
+}
+
+string PlaneComponent::toString(){
+	string temp;
+	temp = temp + Object::toString();
+	temp = temp + "PlaneComponent, ";
+	return temp;
 }
 
 ///////////////////////////////////////PassengerCompartment
@@ -162,7 +209,7 @@ PassengerCompartment::~PassengerCompartment(){
 
 bool PassengerCompartment::ready_check(){
 	if(SecWorker && CleanWorker){
-		//toString();
+		cout << toString() << endl;
 		cout << "PassengerCompartment OK!" << endl;
 		if(Sub_PassCompartment != NULL){
 			cout << "Sub: ";
@@ -175,7 +222,27 @@ bool PassengerCompartment::ready_check(){
 }
 
 string PassengerCompartment::toString(){
-	return " ";
+	string temp;
+	temp = temp + PlaneComponent::toString();
+
+	temp = temp + "PassengerCompartment, ";
+	if(SecWorker){
+		temp = temp + "SecurityEmployee worked here, ";
+	}else{
+		temp = temp + "Need SecurityEmployee to work here, ";
+	}
+	if(CleanWorker){
+		temp = temp + "CleaningEployee worked here, ";
+	}else{
+		temp = temp + "Need CleaningEployee to work here, ";
+	}
+	if(Sub_PassCompartment != NULL){
+		temp = temp + "Sub_PassCompartment, ";
+		temp = temp + Sub_PassCompartment->toString();
+	}else{
+		temp = temp + "No Sub_PassCompartment. ";
+	}
+	return temp;
 }
 
 void PassengerCompartment::process(SecurityEmployee& worker){
@@ -199,7 +266,7 @@ PrivateCompartment::~PrivateCompartment(){
 
 bool PrivateCompartment::ready_check(){
 	if(SecWorker && CleanWorker){
-		//toString();
+		cout << toString() << endl;
 		cout << "PrivateCompartment OK!" << endl;
 		return true;
 	}else{
@@ -208,7 +275,21 @@ bool PrivateCompartment::ready_check(){
 }
 
 string PrivateCompartment::toString(){
-return " ";
+	string temp;
+	temp = temp + PlaneComponent::toString();
+
+	temp =temp + "PrivateCompartment, ";
+	if(SecWorker){
+		temp = temp + "SecurityEmployee worked here, ";
+	}else{
+		temp = temp + "Need SecurityEmployee to work here, ";
+	}
+	if(CleanWorker){
+		temp = temp + "CleaningEployee worked here. ";
+	}else{
+		temp = temp + "Need CleaningEployee to work here. ";
+	}
+	return temp;
 }
 
 void PrivateCompartment::process(SecurityEmployee& worker){
@@ -232,7 +313,7 @@ EquipmentCompartment::~EquipmentCompartment(){
 
 bool EquipmentCompartment::ready_check(){
 	if(SecWorker && MaintWorker){
-		//toString();
+		cout << toString() << endl;
 		cout << "EquipmentCompartment OK!" << endl;
 		return true;
 	}else{
@@ -241,9 +322,22 @@ bool EquipmentCompartment::ready_check(){
 }
 
 string EquipmentCompartment::toString(){
-return " ";
-}
+	string temp;
+	temp = temp + PlaneComponent::toString();
 
+	temp =temp + "EquipmentCompartment, ";
+	if(SecWorker){
+		temp = temp + "SecurityEmployee worked here, ";
+	}else{
+		temp = temp + "Need SecurityEmployee to work here, ";
+	}
+	if(MaintWorker){
+		temp = temp + "MaintenanceEmployee worked here. ";
+	}else{
+		temp = temp + "Need MaintenanceEmployee to work here. ";
+	}
+	return temp;
+}
 void EquipmentCompartment::process(SecurityEmployee& worker){
 	SecWorker= true;
 }
@@ -258,6 +352,9 @@ CargoBay::CargoBay(){
 	CleanWorker= false;
 	MaintWorker= false;
 	cout << "CargoBay just created" << endl;
+	cout<< "creating equipment_space" << endl;
+	equipment_space= new EquipmentCompartment();
+	cout << "equipment_space created" << endl;
 }
 
 CargoBay::~CargoBay(){
@@ -266,7 +363,7 @@ CargoBay::~CargoBay(){
 
 bool CargoBay::ready_check(){
 	if(SecWorker && CleanWorker && MaintWorker){
-		//toString();
+		cout << toString() << endl;
 		cout << "CargoBay OK!" << endl;
 		return true;
 	}else{
@@ -275,7 +372,26 @@ bool CargoBay::ready_check(){
 }
 
 string CargoBay::toString(){
-return " ";
+	string temp;
+	temp = temp + PlaneComponent::toString();
+
+	temp =temp + "CargoBay, ";
+	if(SecWorker){
+		temp = temp + "SecurityEmployee worked here, ";
+	}else{
+		temp = temp + "Need SecurityEmployee to work here, ";
+	}
+	if(CleanWorker){
+		temp = temp + "CleaningEployee worked here, ";
+	}else{
+		temp = temp + "Need CleaningEployee to work here, ";
+	}
+	if(MaintWorker){
+		temp = temp + "MaintenanceEmployee worked here. ";
+	}else{
+		temp = temp + "Need MaintenanceEmployee to work here. ";
+	}
+	return temp;
 }
 
 void CargoBay::process(SecurityEmployee& worker){
@@ -295,7 +411,7 @@ void CargoBay::process(MaintenanceEmployee& worker){
 Plane::Plane(string titl, int ma_pl):
 title(titl), max_pl(ma_pl){
 	cout << "Plane just created";
-	cout << " Plane with ID: " << id << endl;
+	cout << " Plane with ID: " << get_id() << endl;
 	cargo = new CargoBay();
 	e1= new EquipmentCompartment();
 	e2= new EquipmentCompartment();
@@ -344,6 +460,21 @@ bool Plane::ready_check(){
 	return true;
 
 }
+
+string Plane::toString(){
+	string temp;
+	temp = Object::toString();
+	temp = temp + "Plane, title= " + title + ", max_pl= " + to_string(max_pl) + ", ";
+	temp = temp + "Parts: {";
+	temp = temp + cargo->toString() + "\n" + e1->toString() + "\n" + e2->toString() + "\n" + e3->toString();
+	for(int i=0;i<4;i++){
+		temp = temp + "\n" + pl_PassComp[i]->toString();
+	}
+	temp = temp + "}";
+
+	return temp;
+}
+
 void Plane::process(SecurityEmployee& worker){
 	if(!cargo->ready_check()){
 		worker.workOn(*cargo);
@@ -367,10 +498,6 @@ void Plane::process(SecurityEmployee& worker){
 			worker.report(*pl_PassComp[i]);
 		}
 	}
-}
-
-void Plane::toString(){
-	return;
 }
 
 void Plane::process(MaintenanceEmployee& worker){

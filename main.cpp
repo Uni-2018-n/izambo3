@@ -4,9 +4,9 @@ int main(){
 	Plane my_plane("Daboing1", 200);
 	cout << "PLANE CONSTRUCTOR DONE" << endl << endl;
 
-	SecurityEmployee SecEmpl;
-	MaintenanceEmployee MaintEmpl;
-	CleaningEployee CleanEmpl;
+	SecurityEmployee SecEmpl("Bill");
+	MaintenanceEmployee MaintEmpl("Bob");
+	CleaningEployee CleanEmpl("Mike");
 
 	cout << "EMPLOYEE DONE" << endl << endl;
 
@@ -17,6 +17,7 @@ int main(){
 	cout << "PROCESS DONE" << endl << endl;
 
 	if(my_plane.ready_check()){
+		cout << my_plane.toString() << endl;
 		cout << "Plane ready to take off!!" << endl;
 	}
 	cout << endl << "PLANE DESTRUCTOR" << endl;

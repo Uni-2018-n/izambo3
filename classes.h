@@ -2,6 +2,8 @@
 #include <cstring>
 using namespace std;
 
+
+
 //forward declaration
 
 class Employee;
@@ -19,14 +21,17 @@ class Plane;
 
 ///////////////////////////////////////Object
 class Object{
+	static int temp_id;
+	int id;
 public:
-	static int id;//set private if dont want to print or use it
 	Object();
 	~Object();
 	void equal(Object sec);
 	void identical(Object sec);
 	void clone(Object sec);
-	string toString();
+	virtual string toString();
+
+	int get_id();
 };
 
 ///////////////////////////////////////String
@@ -46,7 +51,7 @@ public:
 class Employee: public Object{
 	string name;
 public:
-	Employee();
+	Employee(string nam);
 	virtual ~Employee();
 	// virtual void workOn(CargoBay& work_place)=0;
 	// virtual void workOn(EquipmentCompartment& work_place)=0;
@@ -55,12 +60,13 @@ public:
 	// virtual void report(CargoBay& work_place)=0;
 	// virtual void report(EquipmentCompartment& work_place)=0;
 	// virtual void report(PassengerCompartment& work_place)=0;
+	virtual string toString();
 };
 
 ///////////////////////////////////////SecurityEmployee
 class SecurityEmployee: public Employee{//all
 public:
-	SecurityEmployee();
+	SecurityEmployee(string nam);
 	~SecurityEmployee();
 	void workOn(CargoBay& work_place);
 	void workOn(EquipmentCompartment& work_place);
@@ -69,28 +75,34 @@ public:
 	void report(CargoBay& work_place);
 	void report(EquipmentCompartment& work_place);
 	void report(PassengerCompartment& work_place);
+
+	string toString();
 };
 
 ///////////////////////////////////////MaintenanceEmployee
 class MaintenanceEmployee: public Employee{//cargobay, EquipmentCompartment
 public:
-	MaintenanceEmployee();
+	MaintenanceEmployee(string nam);
 	~MaintenanceEmployee();
 	void workOn(CargoBay& work_place);
 	void workOn(EquipmentCompartment& work_place);
 	void report(CargoBay& work_place);
 	void report(EquipmentCompartment& work_place);
+
+	string toString();
 };
 
 ///////////////////////////////////////CleaningEployee
 class CleaningEployee: public Employee{//CargoBay, PassengerCompartment
 public:
-	CleaningEployee();
+	CleaningEployee(string nam);
 	~CleaningEployee();
 	void workOn(CargoBay& work_place);
 	void workOn(PassengerCompartment& work_place);
 	void report(CargoBay& work_place);
 	void report(PassengerCompartment& work_place);
+
+	string toString();
 };
 
 ///////////////////////////////////////PlaneComponent
@@ -101,6 +113,8 @@ public:
 	// virtual bool ready_check() = 0;
 	// virtual string toString() = 0;
 	// virtual void process() = 0;
+
+	virtual string toString();
 };
 
 ///////////////////////////////////////PassengerCompartment
@@ -145,7 +159,7 @@ public:
 
 ///////////////////////////////////////CargoBay
 class CargoBay: public PrivateCompartment{
-	EquipmentCompartment equipment_space;
+	EquipmentCompartment* equipment_space;
 	bool SecWorker;
 	bool CleanWorker;
 	bool MaintWorker;
@@ -172,7 +186,7 @@ public:
 	Plane(string titl, int ma_pl=40);
 	~Plane();
 	bool ready_check();
-	void toString();
+	string toString();
 	void process(SecurityEmployee& worker);
 	void process(MaintenanceEmployee& worker);
 	void process(CleaningEployee& worker);

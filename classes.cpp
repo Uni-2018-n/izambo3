@@ -5,7 +5,6 @@ int Object::temp_id=0;
 ///////////////////////////////////////Object
 Object::Object(){
 	id= temp_id++;
-	//temp_id++;
 	cout << "Object just Created!" << endl;
 }
 
@@ -475,7 +474,7 @@ string Plane::toString(){
 	return temp;
 }
 
-void Plane::process(SecurityEmployee& worker){
+void Plane::process(SecurityEmployee& worker){//explain oti apo to lists
 	if(!cargo->ready_check()){
 		worker.workOn(*cargo);
 		worker.report(*cargo);

@@ -5,8 +5,11 @@ int main(){
 	cout << "PLANE CONSTRUCTOR DONE" << endl << endl;
 
 	SecurityEmployee SecEmpl("Bill");
+	cout << SecEmpl.toString() << endl;
 	MaintenanceEmployee MaintEmpl("Bob");
+	cout << MaintEmpl.toString() << endl;
 	CleaningEployee CleanEmpl("Mike");
+	cout << CleanEmpl.toString() << endl;
 
 	cout << "EMPLOYEE DONE" << endl << endl;
 
@@ -19,6 +22,8 @@ int main(){
 	if(my_plane.ready_check()){
 		cout << my_plane.toString() << endl;
 		cout << "Plane ready to take off!!" << endl;
+	}else{
+		cout << "Plane not ready ERROR ERROR COLLISION COLLISION " << endl << endl;
 	}
 	cout << endl << "PLANE DESTRUCTOR" << endl;
 	return 0;

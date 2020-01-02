@@ -13,6 +13,10 @@ int main(){
 
 	cout << "EMPLOYEE DONE" << endl << endl;
 
+	cout << "-------------------TEST-----------------------" << endl;
+	
+	cout << "-------------------/TEST-----------------------" << endl;
+
 	my_plane.process(SecEmpl);
 	my_plane.process(MaintEmpl);
 	my_plane.process(CleanEmpl);

@@ -21,6 +21,22 @@ int Object::get_id(){
 	return id;
 }
 
+bool Object::equal(Object& sec){
+	if(id == sec.id){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+bool Object::identical(Object& sec){
+	if(this == &sec){
+		return true;
+	}else{
+		return false;
+	}
+}
+
 ///////////////////////////////////////String
 String::String(string temp):
 txt(temp){

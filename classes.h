@@ -26,8 +26,8 @@ class Object{
 public:
 	Object();
 	~Object();
-	void equal(Object sec);
-	void identical(Object sec);
+	bool equal(Object& sec);
+	bool identical(Object& sec);
 	void clone(Object sec);
 	virtual string toString();
 

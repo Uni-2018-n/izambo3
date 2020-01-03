@@ -53,13 +53,13 @@ class Employee: public Object{
 public:
 	Employee(string nam);
 	virtual ~Employee();
-	// virtual void workOn(CargoBay& work_place)=0;
-	// virtual void workOn(EquipmentCompartment& work_place)=0;
-	// virtual void workOn(PassengerCompartment& work_place)=0;
-	//
-	// virtual void report(CargoBay& work_place)=0;
-	// virtual void report(EquipmentCompartment& work_place)=0;
-	// virtual void report(PassengerCompartment& work_place)=0;
+	virtual void workOn(CargoBay& work_place){};
+	virtual void workOn(EquipmentCompartment& work_place){};
+	virtual void workOn(PassengerCompartment& work_place){};
+
+	virtual void report(CargoBay& work_place){};
+	virtual void report(EquipmentCompartment& work_place){};
+	virtual void report(PassengerCompartment& work_place){};
 	virtual string toString();
 };
 
@@ -110,9 +110,10 @@ class PlaneComponent: public Object{
 public:
 	PlaneComponent();
 	virtual ~PlaneComponent();
-	// virtual bool ready_check() = 0;
-	// virtual string toString() = 0;
-	// virtual void process() = 0;
+	virtual bool ready_check() = 0;
+	virtual void process(SecurityEmployee& worker){};
+	virtual void process(CleaningEployee& worker){};
+	virtual void process(MaintenanceEmployee& worker){};
 
 	virtual string toString();
 };

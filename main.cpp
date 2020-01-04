@@ -1,3 +1,5 @@
+//String, identical, clone_and_encrypt, rwta gia to {}, rwta gia to poses process prepei na exoyme
+
 #include "classes.h"
 
 int main(){
@@ -13,13 +15,14 @@ int main(){
 
 	cout << "EMPLOYEE DONE" << endl << endl;
 
-	cout << "-------------------TEST-----------------------" << endl;
-	
-	cout << "-------------------/TEST-----------------------" << endl;
 
 	my_plane.process(SecEmpl);
 	my_plane.process(MaintEmpl);
 	my_plane.process(CleanEmpl);
+
+
+	cout << "-------------------TEST-----------------------" << endl;
+	cout << "-------------------/TEST-----------------------" << endl;
 
 	cout << "PROCESS DONE" << endl << endl;
 
@@ -29,6 +32,9 @@ int main(){
 	}else{
 		cout << "Plane not ready ERROR ERROR COLLISION COLLISION " << endl << endl;
 	}
+
+
+
 	cout << endl << "PLANE DESTRUCTOR" << endl;
 	return 0;
 }

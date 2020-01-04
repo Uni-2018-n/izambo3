@@ -26,9 +26,9 @@ class Object{
 public:
 	Object();
 	~Object();
-	bool equal(Object& sec);
-	bool identical(Object& sec);
-	void clone(Object sec);
+	virtual bool equal(Object& sec);
+	bool identical(Object& sec);//kai gia alles synarthseis
+	virtual void clone(Object& sec);
 	virtual string toString();
 
 	int get_id();
@@ -61,6 +61,9 @@ public:
 	virtual void report(EquipmentCompartment& work_place){};
 	virtual void report(PassengerCompartment& work_place){};
 	virtual string toString();
+
+	virtual bool equal(Employee& sec);
+	virtual void clone(Employee& sec);
 };
 
 ///////////////////////////////////////SecurityEmployee
@@ -77,6 +80,9 @@ public:
 	void report(PassengerCompartment& work_place);
 
 	string toString();
+
+	bool equal(SecurityEmployee& sec);
+	void clone(SecurityEmployee& sec);
 };
 
 ///////////////////////////////////////MaintenanceEmployee
@@ -90,6 +96,9 @@ public:
 	void report(EquipmentCompartment& work_place);
 
 	string toString();
+
+	bool equal(MaintenanceEmployee& sec);
+	void clone(MaintenanceEmployee& sec);
 };
 
 ///////////////////////////////////////CleaningEployee
@@ -103,6 +112,10 @@ public:
 	void report(PassengerCompartment& work_place);
 
 	string toString();
+
+	bool equal(CleaningEployee& sec);
+	void clone(CleaningEployee& sec);
+
 };
 
 ///////////////////////////////////////PlaneComponent
@@ -116,6 +129,10 @@ public:
 	virtual void process(MaintenanceEmployee& worker){};
 
 	virtual string toString();
+
+	virtual bool equal(PlaneComponent& sec);
+
+	virtual void clone(PlaneComponent& sec);
 };
 
 ///////////////////////////////////////PassengerCompartment
@@ -130,6 +147,10 @@ public:
 	string toString();
 	void process(SecurityEmployee& worker);
 	void process(CleaningEployee& worker);
+
+	bool equal(PassengerCompartment& sec);
+
+	void clone(PassengerCompartment& sec);
 };
 
 ///////////////////////////////////////PrivateCompartment
@@ -143,6 +164,10 @@ public:
 	string toString();
 	virtual void process(SecurityEmployee& worker);
 	virtual void process(CleaningEployee& worker);
+
+	bool equal(PrivateCompartment& sec);
+
+	void clone(PrivateCompartment& sec);
 };
 
 ///////////////////////////////////////EquipmentCompartment
@@ -156,6 +181,10 @@ public:
 	string toString();
 	void process(SecurityEmployee& worker);
 	void process(MaintenanceEmployee& worker);
+
+	bool equal(EquipmentCompartment& sec);
+
+	void clone(EquipmentCompartment& sec);
 };
 
 ///////////////////////////////////////CargoBay
@@ -172,6 +201,10 @@ public:
 	void process(SecurityEmployee& worker);
 	void process(CleaningEployee& worker);
 	void process(MaintenanceEmployee& worker);
+
+	bool equal(CargoBay& sec);
+
+	void clone(CargoBay& sec);
 };
 
 ///////////////////////////////////////Plane
@@ -191,4 +224,8 @@ public:
 	void process(SecurityEmployee& worker);
 	void process(MaintenanceEmployee& worker);
 	void process(CleaningEployee& worker);
+
+	bool equal(Plane& sec);
+
+	void clone(Plane& sec);
 };

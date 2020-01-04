@@ -37,6 +37,11 @@ bool Object::identical(Object& sec){
 	}
 }
 
+void Object::clone(Object& sec){
+	temp_id=sec.temp_id;
+	id=sec.id;
+}
+
 ///////////////////////////////////////String
 String::String(string temp):
 txt(temp){
@@ -86,6 +91,23 @@ string Employee::toString(){
 	return temp;
 }
 
+bool Employee::equal(Employee& sec){
+	if(Object::equal(sec)){
+		if(name==sec.name){
+			return true;
+		}else{
+			return false;
+		}
+	}else{
+		return false;
+	}
+}
+
+void Employee::clone(Employee& sec){
+	Object::clone(sec);
+	name = sec.name;
+}
+
 ///////////////////////////////////////SecurityEmployee
 SecurityEmployee::SecurityEmployee(string nam):
 Employee(nam){
@@ -126,6 +148,19 @@ string SecurityEmployee::toString(){
 	temp = temp + "SecurityEmployee";
 	return temp;
 }
+
+bool SecurityEmployee::equal(SecurityEmployee& sec){
+	if(Employee::equal(sec)){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+void SecurityEmployee::clone(SecurityEmployee& sec){
+	Employee::clone(sec);
+}
+
 ///////////////////////////////////////MaintenanceEmployee
 MaintenanceEmployee::MaintenanceEmployee(string nam):
 Employee(nam){
@@ -159,6 +194,17 @@ string MaintenanceEmployee::toString(){
 	return temp;
 }
 
+bool MaintenanceEmployee::equal(MaintenanceEmployee& sec){
+	if(Employee::equal(sec)){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+void MaintenanceEmployee::clone(MaintenanceEmployee& sec){
+	Employee::clone(sec);
+}
 ///////////////////////////////////////CleaningEployee
 CleaningEployee::CleaningEployee(string nam):
 Employee(nam){
@@ -193,6 +239,18 @@ string CleaningEployee::toString(){
 	return temp;
 }
 
+bool CleaningEployee::equal(CleaningEployee& sec){
+	if(Employee::equal(sec)){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+void CleaningEployee::clone(CleaningEployee& sec){
+	Employee::clone(sec);
+}
+
 ///////////////////////////////////////PlaneComponent
 PlaneComponent::PlaneComponent(){
 	cout << "PlaneComponent just created";
@@ -208,6 +266,18 @@ string PlaneComponent::toString(){
 	temp = temp + Object::toString();
 	temp = temp + "PlaneComponent, ";
 	return temp;
+}
+
+bool PlaneComponent::equal(PlaneComponent& sec){
+	if(Object::equal(sec)){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+void PlaneComponent::clone(PlaneComponent& sec){
+	Object::clone(sec);
 }
 
 ///////////////////////////////////////PassengerCompartment
@@ -268,6 +338,31 @@ void PassengerCompartment::process(CleaningEployee& worker){
 	CleanWorker=true;
 }
 
+bool PassengerCompartment::equal(PassengerCompartment& sec){
+	if(PlaneComponent::equal(sec)){
+		if(SecWorker == sec.SecWorker && CleanWorker == sec.CleanWorker){
+			if(Sub_PassCompartment != NULL && sec.Sub_PassCompartment != NULL){
+				return Sub_PassCompartment->equal(*(sec.Sub_PassCompartment));
+			}else{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+void PassengerCompartment::clone(PassengerCompartment& sec){
+	if(Sub_PassCompartment != NULL && sec.Sub_PassCompartment != NULL){
+		Sub_PassCompartment->clone(*(sec.Sub_PassCompartment));
+	}else if(sec.Sub_PassCompartment != NULL){
+		Sub_PassCompartment= new PassengerCompartment;
+		Sub_PassCompartment->clone(*(sec.Sub_PassCompartment));
+	}
+	SecWorker = sec.SecWorker;
+	CleanWorker = sec.CleanWorker;
+	PlaneComponent::clone(sec);
+}
+
 ///////////////////////////////////////PrivateCompartment
 PrivateCompartment::PrivateCompartment(){
 	SecWorker= false;
@@ -315,6 +410,21 @@ void PrivateCompartment::process(CleaningEployee& worker){
 	CleanWorker = true;
 }
 
+bool PrivateCompartment::equal(PrivateCompartment& sec){
+	if(PlaneComponent::equal(sec)){
+		if(SecWorker == sec.SecWorker && CleanWorker == sec.CleanWorker){
+			return true;
+		}
+	}
+	return false;
+}
+
+void PrivateCompartment::clone(PrivateCompartment& sec){
+	SecWorker = sec.SecWorker;
+	CleanWorker = sec.CleanWorker;
+	PlaneComponent::clone(sec);
+}
+
 ///////////////////////////////////////EquipmentCompartment
 EquipmentCompartment::EquipmentCompartment(){
 	SecWorker= false;
@@ -359,6 +469,21 @@ void EquipmentCompartment::process(SecurityEmployee& worker){
 
 void 	EquipmentCompartment::process(MaintenanceEmployee& worker){
 	MaintWorker = true;
+}
+
+bool EquipmentCompartment::equal(EquipmentCompartment& sec){
+	if(PlaneComponent::equal(sec)){
+		if(SecWorker == sec.SecWorker && MaintWorker == sec.MaintWorker){
+			return true;
+		}
+	}
+	return false;
+}
+
+void EquipmentCompartment::clone(EquipmentCompartment& sec){
+	SecWorker = sec.SecWorker;
+	MaintWorker = sec.MaintWorker;
+	PlaneComponent::clone(sec);
 }
 
 ///////////////////////////////////////CargoBay
@@ -421,6 +546,24 @@ void CargoBay::process(MaintenanceEmployee& worker){
 	MaintWorker = true;
 }
 
+bool CargoBay::equal(CargoBay& sec){
+	if(PlaneComponent::equal(sec)){
+		if(SecWorker == sec.SecWorker && CleanWorker == sec.CleanWorker && MaintWorker == sec.MaintWorker){
+			if(equipment_space->equal(*(sec.equipment_space))){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+void CargoBay::clone(CargoBay& sec){
+	equipment_space->clone(*(sec.equipment_space));
+	SecWorker = sec.SecWorker;
+	CleanWorker = sec.CleanWorker;
+	MaintWorker = sec.MaintWorker;
+	PlaneComponent::clone(sec);
+}
 
 ///////////////////////////////////////Plane
 Plane::Plane(string titl, int ma_pl):
@@ -544,4 +687,33 @@ void Plane::process(CleaningEployee& worker){
 			worker.report(*pl_PassComp[i]);
 		}
 	}
+}
+
+bool Plane::equal(Plane& sec){
+	if(title == sec.title && max_pl == sec.max_pl){
+		if(cargo->equal(*(sec.cargo))){
+			if(e1->equal(*(sec.e1)) && e2->equal(*(sec.e2)) && e3->equal(*(sec.e3))){
+				for(int i=0;i<4;i++){
+					if(!(pl_PassComp[i]->equal(*(sec.pl_PassComp[i])))){
+						return false;
+					}
+				}
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+void Plane::clone(Plane& sec){
+	title = sec.title;
+	max_pl = sec.max_pl;
+	cargo->clone(*(sec.cargo));
+	e1->clone(*(sec.e1));
+	e2->clone(*(sec.e2));
+	e3->clone(*(sec.e3));
+	for(int i=0;i<4;i++){
+		pl_PassComp[i]->clone(*(sec.pl_PassComp[i]));
+	}
+	Object::clone(sec);
 }

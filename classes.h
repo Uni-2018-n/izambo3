@@ -53,9 +53,9 @@ public:
 
 ///////////////////////////////////////Employee
 class Employee: public Object{
-	string name;
+	String name;
 public:
-	Employee(string nam);
+	Employee(String nam);
 	virtual ~Employee();
 	virtual void workOn(CargoBay& work_place){};
 	virtual void workOn(EquipmentCompartment& work_place){};
@@ -73,7 +73,7 @@ public:
 ///////////////////////////////////////SecurityEmployee
 class SecurityEmployee: public Employee{//all
 public:
-	SecurityEmployee(string nam);
+	SecurityEmployee(String nam);
 	~SecurityEmployee();
 	void workOn(CargoBay& work_place);
 	void workOn(EquipmentCompartment& work_place);
@@ -92,7 +92,7 @@ public:
 ///////////////////////////////////////MaintenanceEmployee
 class MaintenanceEmployee: public Employee{//cargobay, EquipmentCompartment
 public:
-	MaintenanceEmployee(string nam);
+	MaintenanceEmployee(String nam);
 	~MaintenanceEmployee();
 	void workOn(CargoBay& work_place);
 	void workOn(EquipmentCompartment& work_place);
@@ -108,7 +108,7 @@ public:
 ///////////////////////////////////////CleaningEployee
 class CleaningEployee: public Employee{//CargoBay, PassengerCompartment
 public:
-	CleaningEployee(string nam);
+	CleaningEployee(String nam);
 	~CleaningEployee();
 	void workOn(CargoBay& work_place);
 	void workOn(PassengerCompartment& work_place);
@@ -213,7 +213,7 @@ public:
 
 ///////////////////////////////////////Plane
 class Plane: public Object{//anaktish twn timwn aytwn
-	string title;
+	String title;
 	int max_pl;
 	CargoBay* cargo;
 	EquipmentCompartment* e1;
@@ -221,7 +221,7 @@ class Plane: public Object{//anaktish twn timwn aytwn
 	EquipmentCompartment* e3;
 	PassengerCompartment** pl_PassComp;
 public:
-	Plane(string titl, int ma_pl=40);
+	Plane(String titl, int ma_pl=40);
 	~Plane();
 	bool ready_check();
 	String toString();

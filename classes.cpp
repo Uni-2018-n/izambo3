@@ -82,7 +82,7 @@ string String::get_txt(){
 }
 
 ///////////////////////////////////////Employee
-Employee::Employee(string nam):
+Employee::Employee(String nam):
 name(nam){
 	cout << "Employee just created";
 	cout << " Employee ID: " << get_id() << endl;
@@ -93,13 +93,13 @@ Employee::~Employee(){
 }
 
 String Employee::toString(){
-	String temp(Object::toString().get_txt() + "Employee, " + name + " , ");
+	String temp(Object::toString().get_txt() + "Employee, " + name.get_txt() + " , ");
 	return temp;
 }
 
 bool Employee::equal(Employee& sec){
 	if(Object::equal(sec)){
-		if(name==sec.name){
+		if(name.get_txt() ==sec.name.get_txt()){
 			return true;
 		}else{
 			return false;
@@ -115,7 +115,7 @@ void Employee::clone(Employee& sec){
 }
 
 ///////////////////////////////////////SecurityEmployee
-SecurityEmployee::SecurityEmployee(string nam):
+SecurityEmployee::SecurityEmployee(String nam):
 Employee(nam){
 	cout << "SecurityEmployee just created" << endl;
 }
@@ -166,7 +166,7 @@ void SecurityEmployee::clone(SecurityEmployee& sec){
 }
 
 ///////////////////////////////////////MaintenanceEmployee
-MaintenanceEmployee::MaintenanceEmployee(string nam):
+MaintenanceEmployee::MaintenanceEmployee(String nam):
 Employee(nam){
 	cout << "MaintenanceEmployee just created" << endl;
 }
@@ -208,7 +208,7 @@ void MaintenanceEmployee::clone(MaintenanceEmployee& sec){
 	Employee::clone(sec);
 }
 ///////////////////////////////////////CleaningEployee
-CleaningEployee::CleaningEployee(string nam):
+CleaningEployee::CleaningEployee(String nam):
 Employee(nam){
 	cout << "CleaningEployee just created" << endl;
 }
@@ -572,7 +572,7 @@ void CargoBay::clone(CargoBay& sec){
 }
 
 ///////////////////////////////////////Plane
-Plane::Plane(string titl, int ma_pl):
+Plane::Plane(String titl, int ma_pl):
 title(titl), max_pl(ma_pl){
 	cout << "Plane just created";
 	cout << " Plane with ID: " << get_id() << endl;
@@ -627,7 +627,7 @@ bool Plane::ready_check(){
 
 String Plane::toString(){
 	String temp(Object::toString().get_txt() +
-	"Plane, title= " + title + ", max_pl= " + to_string(max_pl) + ", " +
+	"Plane, title= " + title.get_txt() + ", max_pl= " + to_string(max_pl) + ", " +
 	"Parts: \n" +
 	cargo->toString().get_txt() + "\n" + e1->toString().get_txt() + "\n" + e2->toString().get_txt() + "\n" + e3->toString().get_txt());
 	for(int i=0;i<4;i++){
@@ -694,7 +694,7 @@ void Plane::process(CleaningEployee& worker){
 }
 
 bool Plane::equal(Plane& sec){
-	if(title == sec.title && max_pl == sec.max_pl){
+	if(title.get_txt() == sec.title.get_txt() && max_pl == sec.max_pl){
 		if(cargo->equal(*(sec.cargo))){
 			if(e1->equal(*(sec.e1)) && e2->equal(*(sec.e2)) && e3->equal(*(sec.e3))){
 				for(int i=0;i<4;i++){

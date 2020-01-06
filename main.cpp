@@ -1,16 +1,22 @@
-//String, identical, clone_and_encrypt, rwta gia to {}, rwta gia to poses process prepei na exoyme
+//clone_and_encrypt, rwta gia to {}, rwta gia to poses process prepei na exoyme
 
 #include "classes.h"
 
 int main(){
-	Plane my_plane("Daboing1", 200);
+	String plane_Title("Daboing1");
+	Plane my_plane(plane_Title, 200);
 	cout << "PLANE CONSTRUCTOR DONE" << endl << endl;
 
-	SecurityEmployee SecEmpl("Bill");
+	String SecEmp_Title("BIll");
+	SecurityEmployee SecEmpl(SecEmp_Title);
 	SecEmpl.toString().print();
-	MaintenanceEmployee MaintEmpl("Bob");
+
+	String MaintEmp_Title("Bob");
+	MaintenanceEmployee MaintEmpl(MaintEmp_Title);
 	MaintEmpl.toString().print();
-	CleaningEployee CleanEmpl("Mike");
+
+	String CleanEmp_Title("Mike");
+	CleaningEployee CleanEmpl(CleanEmp_Title);
 	CleanEmpl.toString().print();
 
 	cout << "EMPLOYEE DONE" << endl << endl;

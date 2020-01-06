@@ -6,6 +6,7 @@ using namespace std;
 
 //forward declaration
 
+class String;
 class Employee;
 class SecurityEmployee;
 class MaintenanceEmployee;
@@ -29,7 +30,7 @@ public:
 	virtual bool equal(Object& sec);
 	bool identical(Object& sec);//kai gia alles synarthseis
 	virtual void clone(Object& sec);
-	virtual string toString();
+	virtual String toString();
 
 	int get_id();
 };
@@ -39,12 +40,15 @@ class String: public Object{
 	string txt;
 public:
 	String(string temp);
+	~String();
 	int length();
 	void clear();
 	void concat(String sec);
 	char at(int pos);
 	void updateAt(int pos, char rep);
 	void print();
+
+	string  get_txt();
 };
 
 ///////////////////////////////////////Employee
@@ -60,7 +64,7 @@ public:
 	virtual void report(CargoBay& work_place){};
 	virtual void report(EquipmentCompartment& work_place){};
 	virtual void report(PassengerCompartment& work_place){};
-	virtual string toString();
+	virtual String toString();
 
 	virtual bool equal(Employee& sec);
 	virtual void clone(Employee& sec);
@@ -79,7 +83,7 @@ public:
 	void report(EquipmentCompartment& work_place);
 	void report(PassengerCompartment& work_place);
 
-	string toString();
+	String toString();
 
 	bool equal(SecurityEmployee& sec);
 	void clone(SecurityEmployee& sec);
@@ -95,7 +99,7 @@ public:
 	void report(CargoBay& work_place);
 	void report(EquipmentCompartment& work_place);
 
-	string toString();
+	String toString();
 
 	bool equal(MaintenanceEmployee& sec);
 	void clone(MaintenanceEmployee& sec);
@@ -111,7 +115,7 @@ public:
 	void report(CargoBay& work_place);
 	void report(PassengerCompartment& work_place);
 
-	string toString();
+	String toString();
 
 	bool equal(CleaningEployee& sec);
 	void clone(CleaningEployee& sec);
@@ -128,7 +132,7 @@ public:
 	virtual void process(CleaningEployee& worker){};
 	virtual void process(MaintenanceEmployee& worker){};
 
-	virtual string toString();
+	virtual String toString();
 
 	virtual bool equal(PlaneComponent& sec);
 
@@ -144,7 +148,7 @@ public:
 	PassengerCompartment();
 	~PassengerCompartment();
 	bool ready_check();
-	string toString();
+	String toString();
 	void process(SecurityEmployee& worker);
 	void process(CleaningEployee& worker);
 
@@ -161,7 +165,7 @@ public:
 	PrivateCompartment();
 	~PrivateCompartment();
 	virtual bool ready_check();
-	string toString();
+	String toString();
 	virtual void process(SecurityEmployee& worker);
 	virtual void process(CleaningEployee& worker);
 
@@ -178,7 +182,7 @@ public:
 	EquipmentCompartment();
 	~EquipmentCompartment();
 	bool ready_check();
-	string toString();
+	String toString();
 	void process(SecurityEmployee& worker);
 	void process(MaintenanceEmployee& worker);
 
@@ -197,7 +201,7 @@ public:
 	CargoBay();
 	~CargoBay();
 	bool ready_check();
-	string toString();
+	String toString();
 	void process(SecurityEmployee& worker);
 	void process(CleaningEployee& worker);
 	void process(MaintenanceEmployee& worker);
@@ -220,7 +224,7 @@ public:
 	Plane(string titl, int ma_pl=40);
 	~Plane();
 	bool ready_check();
-	string toString();
+	String toString();
 	void process(SecurityEmployee& worker);
 	void process(MaintenanceEmployee& worker);
 	void process(CleaningEployee& worker);

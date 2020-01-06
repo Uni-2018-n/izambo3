@@ -7,11 +7,11 @@ int main(){
 	cout << "PLANE CONSTRUCTOR DONE" << endl << endl;
 
 	SecurityEmployee SecEmpl("Bill");
-	cout << SecEmpl.toString() << endl;
+	SecEmpl.toString().print();
 	MaintenanceEmployee MaintEmpl("Bob");
-	cout << MaintEmpl.toString() << endl;
+	MaintEmpl.toString().print();
 	CleaningEployee CleanEmpl("Mike");
-	cout << CleanEmpl.toString() << endl;
+	CleanEmpl.toString().print();
 
 	cout << "EMPLOYEE DONE" << endl << endl;
 
@@ -27,7 +27,7 @@ int main(){
 	cout << "PROCESS DONE" << endl << endl;
 
 	if(my_plane.ready_check()){
-		cout << my_plane.toString() << endl;
+		my_plane.toString().print();
 		cout << "Plane ready to take off!!" << endl;
 	}else{
 		cout << "Plane not ready ERROR ERROR COLLISION COLLISION " << endl << endl;

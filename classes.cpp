@@ -12,8 +12,9 @@ Object::~Object(){
 	cout << "Object just destroyed!" << endl;
 }
 
-string Object::toString(){
-	return "Object, id= " + to_string(id) + ", ";
+String Object::toString(){
+	String temp("Object, id= " + to_string(id) + ", ");
+	return temp;
 }
 
 
@@ -45,7 +46,11 @@ void Object::clone(Object& sec){
 ///////////////////////////////////////String
 String::String(string temp):
 txt(temp){
+	cout << "String just Created!" << endl;
+}
 
+String::~String(){
+	cout << "String just destroyed!" << endl;
 }
 
 int String::length(){
@@ -72,6 +77,10 @@ void String::print(){
 	cout << txt << endl;
 }
 
+string String::get_txt(){
+	return txt;
+}
+
 ///////////////////////////////////////Employee
 Employee::Employee(string nam):
 name(nam){
@@ -83,11 +92,8 @@ Employee::~Employee(){
 	cout << "Employee to be destroyed" << endl;
 }
 
-string Employee::toString(){
-	string temp;
-	temp = temp + Object::toString();
-	temp = temp + "Employee, " + name + " , ";
-
+String Employee::toString(){
+	String temp(Object::toString().get_txt() + "Employee, " + name + " , ");
 	return temp;
 }
 
@@ -142,10 +148,8 @@ void SecurityEmployee::report(PassengerCompartment& work_place){
 	cout << "SecurityEmployee keep working on PassengerCompartment" << endl;
 }
 
-string SecurityEmployee::toString(){
-	string temp;
-	temp = temp + Employee::toString();
-	temp = temp + "SecurityEmployee";
+String SecurityEmployee::toString(){
+	String temp(Employee::toString().get_txt() + "SecurityEmployee");
 	return temp;
 }
 
@@ -187,10 +191,8 @@ void MaintenanceEmployee::report(EquipmentCompartment& work_place){
 	cout << "MaintenanceEmployee keep working on EquipmentCompartment" << endl;
 }
 
-string MaintenanceEmployee::toString(){
-	string temp;
-	temp = temp + Employee::toString();
-	temp = temp + "MaintenanceEmployee";
+String MaintenanceEmployee::toString(){
+	String temp(Employee::toString().get_txt() + "MaintenanceEmployee");
 	return temp;
 }
 
@@ -232,10 +234,8 @@ void CleaningEployee::report(PassengerCompartment& work_place){
 	cout << "CleaningEployee keep working on PassengerCompartment" << endl;
 }
 
-string CleaningEployee::toString(){
-	string temp;
-	temp = temp + Employee::toString();
-	temp = temp + "CleaningEployee";
+String CleaningEployee::toString(){
+	String temp(Employee::toString().get_txt() + "CleaningEployee");
 	return temp;
 }
 
@@ -261,10 +261,8 @@ PlaneComponent::~PlaneComponent(){
 	cout << "PlaneComponent to be destroyed" << endl;
 }
 
-string PlaneComponent::toString(){
-	string temp;
-	temp = temp + Object::toString();
-	temp = temp + "PlaneComponent, ";
+String PlaneComponent::toString(){
+	String temp(Object::toString().get_txt() + "PlaneComponent, ");
 	return temp;
 }
 
@@ -294,7 +292,7 @@ PassengerCompartment::~PassengerCompartment(){
 
 bool PassengerCompartment::ready_check(){
 	if(SecWorker && CleanWorker){
-		cout << toString() << endl;
+		toString().print();
 		cout << "PassengerCompartment OK!" << endl;
 		if(Sub_PassCompartment != NULL){
 			cout << "Sub: ";
@@ -306,26 +304,28 @@ bool PassengerCompartment::ready_check(){
 	}
 }
 
-string PassengerCompartment::toString(){
-	string temp;
-	temp = temp + PlaneComponent::toString();
-
-	temp = temp + "PassengerCompartment, ";
+String PassengerCompartment::toString(){
+	String temp(PlaneComponent::toString().get_txt() + "PassengerCompartment, ");
 	if(SecWorker){
-		temp = temp + "SecurityEmployee worked here, ";
+		String temp2("SecurityEmployee worked here, ");
+		temp.concat(temp2);
 	}else{
-		temp = temp + "Need SecurityEmployee to work here, ";
+		String temp2("Need SecurityEmployee to work here, ");
+		temp.concat(temp2);
 	}
 	if(CleanWorker){
-		temp = temp + "CleaningEployee worked here, ";
+		String temp2("CleaningEployee worked here, ");
+		temp.concat(temp2);
 	}else{
-		temp = temp + "Need CleaningEployee to work here, ";
+		String temp2("Need CleaningEployee to work here, ");
+		temp.concat(temp2);
 	}
 	if(Sub_PassCompartment != NULL){
-		temp = temp + "Sub_PassCompartment, ";
-		temp = temp + Sub_PassCompartment->toString();
+		String temp2("Sub_PassCompartment, " + Sub_PassCompartment->toString().get_txt());
+		temp.concat(temp2);
 	}else{
-		temp = temp + "No Sub_PassCompartment. ";
+		String temp2("No Sub_PassCompartment. ");
+		temp.concat(temp2);
 	}
 	return temp;
 }
@@ -376,7 +376,7 @@ PrivateCompartment::~PrivateCompartment(){
 
 bool PrivateCompartment::ready_check(){
 	if(SecWorker && CleanWorker){
-		cout << toString() << endl;
+		toString().print();
 		cout << "PrivateCompartment OK!" << endl;
 		return true;
 	}else{
@@ -384,20 +384,21 @@ bool PrivateCompartment::ready_check(){
 	}
 }
 
-string PrivateCompartment::toString(){
-	string temp;
-	temp = temp + PlaneComponent::toString();
-
-	temp =temp + "PrivateCompartment, ";
+String PrivateCompartment::toString(){
+	String temp(PlaneComponent::toString().get_txt() + "PrivateCompartment, ");
 	if(SecWorker){
-		temp = temp + "SecurityEmployee worked here, ";
+		String temp2("SecurityEmployee worked here, ");
+		temp.concat(temp2);
 	}else{
-		temp = temp + "Need SecurityEmployee to work here, ";
+		String temp2("Need SecurityEmployee to work here, ");
+		temp.concat(temp2);
 	}
 	if(CleanWorker){
-		temp = temp + "CleaningEployee worked here. ";
+		String temp2("CleaningEployee worked here. ");
+		temp.concat(temp2);
 	}else{
-		temp = temp + "Need CleaningEployee to work here. ";
+		String temp2("Need CleaningEployee to work here, ");
+		temp.concat(temp2);
 	}
 	return temp;
 }
@@ -438,7 +439,7 @@ EquipmentCompartment::~EquipmentCompartment(){
 
 bool EquipmentCompartment::ready_check(){
 	if(SecWorker && MaintWorker){
-		cout << toString() << endl;
+		toString().print();
 		cout << "EquipmentCompartment OK!" << endl;
 		return true;
 	}else{
@@ -446,20 +447,21 @@ bool EquipmentCompartment::ready_check(){
 	}
 }
 
-string EquipmentCompartment::toString(){
-	string temp;
-	temp = temp + PlaneComponent::toString();
-
-	temp =temp + "EquipmentCompartment, ";
+String EquipmentCompartment::toString(){
+	String temp(PlaneComponent::toString().get_txt() + "EquipmentCompartment, ");
 	if(SecWorker){
-		temp = temp + "SecurityEmployee worked here, ";
+		String temp2("SecurityEmployee worked here, ");
+		temp.concat(temp2);
 	}else{
-		temp = temp + "Need SecurityEmployee to work here, ";
+		String temp2("Need SecurityEmployee to work here, ");
+		temp.concat(temp2);
 	}
 	if(MaintWorker){
-		temp = temp + "MaintenanceEmployee worked here. ";
+		String temp2("MaintenanceEmployee worked here. ");
+		temp.concat(temp2);
 	}else{
-		temp = temp + "Need MaintenanceEmployee to work here. ";
+		String temp2("Need MaintenanceEmployee to work here. ");
+		temp.concat(temp2);
 	}
 	return temp;
 }
@@ -503,7 +505,7 @@ CargoBay::~CargoBay(){
 
 bool CargoBay::ready_check(){
 	if(SecWorker && CleanWorker && MaintWorker){
-		cout << toString() << endl;
+		toString().print();
 		cout << "CargoBay OK!" << endl;
 		return true;
 	}else{
@@ -511,25 +513,29 @@ bool CargoBay::ready_check(){
 	}
 }
 
-string CargoBay::toString(){
-	string temp;
-	temp = temp + PlaneComponent::toString();
+String CargoBay::toString(){
+	String temp(PlaneComponent::toString().get_txt() + "CargoBay, ");
 
-	temp =temp + "CargoBay, ";
 	if(SecWorker){
-		temp = temp + "SecurityEmployee worked here, ";
+		String temp2("SecurityEmployee worked here, ");
+		temp.concat(temp2);
 	}else{
-		temp = temp + "Need SecurityEmployee to work here, ";
+		String temp2("Need SecurityEmployee to work here, ");
+		temp.concat(temp2);
 	}
 	if(CleanWorker){
-		temp = temp + "CleaningEployee worked here, ";
+		String temp2("CleaningEployee worked here, ");
+		temp.concat(temp2);
 	}else{
-		temp = temp + "Need CleaningEployee to work here, ";
+		String temp2("Need CleaningEployee to work here, ");
+		temp.concat(temp2);
 	}
 	if(MaintWorker){
-		temp = temp + "MaintenanceEmployee worked here. ";
+		String temp2("MaintenanceEmployee worked here. ");
+		temp.concat(temp2);
 	}else{
-		temp = temp + "Need MaintenanceEmployee to work here. ";
+		String temp2("Need MaintenanceEmployee to work here. ");
+		temp.concat(temp2);
 	}
 	return temp;
 }
@@ -619,17 +625,15 @@ bool Plane::ready_check(){
 
 }
 
-string Plane::toString(){
-	string temp;
-	temp = Object::toString();
-	temp = temp + "Plane, title= " + title + ", max_pl= " + to_string(max_pl) + ", ";
-	temp = temp + "Parts: {";
-	temp = temp + cargo->toString() + "\n" + e1->toString() + "\n" + e2->toString() + "\n" + e3->toString();
+String Plane::toString(){
+	String temp(Object::toString().get_txt() +
+	"Plane, title= " + title + ", max_pl= " + to_string(max_pl) + ", " +
+	"Parts: \n" +
+	cargo->toString().get_txt() + "\n" + e1->toString().get_txt() + "\n" + e2->toString().get_txt() + "\n" + e3->toString().get_txt());
 	for(int i=0;i<4;i++){
-		temp = temp + "\n" + pl_PassComp[i]->toString();
+		String temp2("\n" + pl_PassComp[i]->toString().get_txt());
+		temp.concat(temp2);
 	}
-	temp = temp + "}";
-
 	return temp;
 }
 

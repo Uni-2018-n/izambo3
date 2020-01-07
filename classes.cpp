@@ -1,15 +1,21 @@
 #include "classes.h"
 
+//#define DEBUG
+
 int Object::temp_id=0;
 
 ///////////////////////////////////////Object
 Object::Object(){
 	id= temp_id++;
+	#ifndef DEBUG
 	cout << "Object just Created!" << endl;
+	#endif
 }
 
 Object::~Object(){
+	#ifndef DEBUG
 	cout << "Object just destroyed!" << endl;
+	#endif
 }
 
 String Object::toString(){
@@ -46,11 +52,15 @@ void Object::clone(Object& sec){
 ///////////////////////////////////////String
 String::String(string temp):
 txt(temp){
+	#ifndef DEBUG
 	cout << "String just Created!" << endl;
+	#endif
 }
 
 String::~String(){
+	#ifndef DEBUG
 	cout << "String just destroyed!" << endl;
+	#endif
 }
 
 int String::length(){
@@ -84,12 +94,16 @@ string String::get_txt(){
 ///////////////////////////////////////Employee
 Employee::Employee(String nam):
 name(nam){
+	#ifndef DEBUG
 	cout << "Employee just created";
+	#endif
 	cout << " Employee ID: " << get_id() << endl;
 }
 
 Employee::~Employee(){
+	#ifndef DEBUG
 	cout << "Employee to be destroyed" << endl;
+	#endif
 }
 
 String Employee::toString(){
@@ -117,11 +131,15 @@ void Employee::clone(Employee& sec){
 ///////////////////////////////////////SecurityEmployee
 SecurityEmployee::SecurityEmployee(String nam):
 Employee(nam){
+	#ifndef DEBUG
 	cout << "SecurityEmployee just created" << endl;
+	#endif
 }
 
 SecurityEmployee::~SecurityEmployee(){
+	#ifndef DEBUG
 	cout << "SecurityEmployee to be destroyed" << endl;
+	#endif
 }
 
 void SecurityEmployee::workOn(CargoBay& work_place){
@@ -168,11 +186,15 @@ void SecurityEmployee::clone(SecurityEmployee& sec){
 ///////////////////////////////////////MaintenanceEmployee
 MaintenanceEmployee::MaintenanceEmployee(String nam):
 Employee(nam){
+	#ifndef DEBUG
 	cout << "MaintenanceEmployee just created" << endl;
+	#endif
 }
 
 MaintenanceEmployee::~MaintenanceEmployee(){
+	#ifndef DEBUG
 	cout << "MaintenanceEmployee to be destroyed" << endl;
+	#endif
 }
 
 void MaintenanceEmployee:: workOn(CargoBay& work_place){
@@ -210,11 +232,15 @@ void MaintenanceEmployee::clone(MaintenanceEmployee& sec){
 ///////////////////////////////////////CleaningEployee
 CleaningEployee::CleaningEployee(String nam):
 Employee(nam){
+	#ifndef DEBUG
 	cout << "CleaningEployee just created" << endl;
+	#endif
 }
 
 CleaningEployee::~CleaningEployee(){
+	#ifndef DEBUG
 	cout << "CleaningEployee to be destroyed" << endl;
+	#endif
 }
 
 void CleaningEployee:: workOn(CargoBay& work_place){
@@ -253,12 +279,16 @@ void CleaningEployee::clone(CleaningEployee& sec){
 
 ///////////////////////////////////////PlaneComponent
 PlaneComponent::PlaneComponent(){
+	#ifndef DEBUG
 	cout << "PlaneComponent just created";
+	#endif
 	cout << " PlaneComponent ID: " << get_id() << endl;
 }
 
 PlaneComponent::~PlaneComponent(){
+	#ifndef DEBUG
 	cout << "PlaneComponent to be destroyed" << endl;
+	#endif
 }
 
 String PlaneComponent::toString(){
@@ -280,17 +310,30 @@ void PlaneComponent::clone(PlaneComponent& sec){
 
 ///////////////////////////////////////PassengerCompartment
 PassengerCompartment::PassengerCompartment(){
-	Sub_PassCompartment = NULL;//TODO make this 50/50 chance
+	if(rand() % 2){
+		Sub_PassCompartment = new PassengerCompartment();
+	}else{
+		Sub_PassCompartment = NULL;
+	}
 	SecWorker= false;
 	CleanWorker = false;
+	#ifndef DEBUG
 	cout << "PassengerCompartment just created" << endl;
+	#endif
 }
 
 PassengerCompartment::~PassengerCompartment(){
+	#ifndef DEBUG
 	cout << "PassengerCompartment to be destroyed" << endl;
+	#endif
 }
 
 bool PassengerCompartment::ready_check(){
+	if(Sub_PassCompartment != NULL){
+		if(!(Sub_PassCompartment->ready_check())){
+			return false;
+		}
+	}
 	if(SecWorker && CleanWorker){
 		toString().print();
 		cout << "PassengerCompartment OK!" << endl;
@@ -331,10 +374,16 @@ String PassengerCompartment::toString(){
 }
 
 void PassengerCompartment::process(SecurityEmployee& worker){
+	if(Sub_PassCompartment != NULL){
+		Sub_PassCompartment->process(worker);
+	}
 	SecWorker= true;
 }
 
 void PassengerCompartment::process(CleaningEployee& worker){
+	if(Sub_PassCompartment != NULL){
+		Sub_PassCompartment->process(worker);
+	}
 	CleanWorker=true;
 }
 
@@ -367,11 +416,15 @@ void PassengerCompartment::clone(PassengerCompartment& sec){
 PrivateCompartment::PrivateCompartment(){
 	SecWorker= false;
 	CleanWorker= false;
+	#ifndef DEBUG
 	cout << "PrivateCompartment just created" << endl;
+	#endif
 }
 
 PrivateCompartment::~PrivateCompartment(){
+	#ifndef DEBUG
 	cout << "PrivateCompartment to be destroyed" << endl;
+	#endif
 }
 
 bool PrivateCompartment::ready_check(){
@@ -430,11 +483,15 @@ void PrivateCompartment::clone(PrivateCompartment& sec){
 EquipmentCompartment::EquipmentCompartment(){
 	SecWorker= false;
 	MaintWorker= false;
+	#ifndef DEBUG
 	cout << "EquipmentCompartment just created" << endl;
+	#endif
 }
 
 EquipmentCompartment::~EquipmentCompartment(){
+	#ifndef DEBUG
 	cout << "EquipmentCompartment to be destroyed" << endl;
+	#endif
 }
 
 bool EquipmentCompartment::ready_check(){
@@ -493,21 +550,31 @@ CargoBay::CargoBay(){
 	SecWorker= false;
 	CleanWorker= false;
 	MaintWorker= false;
+	#ifndef DEBUG
 	cout << "CargoBay just created" << endl;
 	cout<< "creating equipment_space" << endl;
+	#endif
 	equipment_space= new EquipmentCompartment();
+	#ifndef DEBUG
 	cout << "equipment_space created" << endl;
+	#endif
 }
 
 CargoBay::~CargoBay(){
-	cout << "CargoBay to be destroyed" << endl;;
+	#ifndef DEBUG
+	cout << "CargoBay to be destroyed" << endl;
+	#endif
 }
 
 bool CargoBay::ready_check(){
-	if(SecWorker && CleanWorker && MaintWorker){
-		toString().print();
-		cout << "CargoBay OK!" << endl;
-		return true;
+	if(equipment_space->ready_check()){
+		if(SecWorker && CleanWorker && MaintWorker){
+			toString().print();
+			cout << "CargoBay OK!" << endl;
+			return true;
+		}else{
+			return false;
+		}
 	}else{
 		return false;
 	}
@@ -541,6 +608,7 @@ String CargoBay::toString(){
 }
 
 void CargoBay::process(SecurityEmployee& worker){
+	equipment_space->process(worker);
 	SecWorker = true;
 }
 
@@ -549,6 +617,7 @@ void CargoBay::process(CleaningEployee& worker){
 }
 
 void CargoBay::process(MaintenanceEmployee& worker){
+	equipment_space->process(worker);
 	MaintWorker = true;
 }
 
@@ -574,7 +643,9 @@ void CargoBay::clone(CargoBay& sec){
 ///////////////////////////////////////Plane
 Plane::Plane(String titl, int ma_pl):
 title(titl), max_pl(ma_pl){
+	#ifndef DEBUG
 	cout << "Plane just created";
+	#endif
 	cout << " Plane with ID: " << get_id() << endl;
 	cargo = new CargoBay();
 	e1= new EquipmentCompartment();
@@ -599,7 +670,9 @@ Plane::~Plane(){
 	}
 	delete[] pl_PassComp;
 
+	#ifndef DEBUG
 	cout << "Plane to be destroyed" << endl;
+	#endif
 }
 
 bool Plane::ready_check(){

@@ -1,4 +1,4 @@
-//clone_and_encrypt, rwta gia to {}, rwta gia to poses process prepei na exoyme
+//clone_and_encrypt, rwta gia to {}, fix sub passenger compartment + cargo bay 
 
 #include "classes.h"
 

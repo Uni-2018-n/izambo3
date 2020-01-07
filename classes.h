@@ -36,7 +36,7 @@ public:
 };
 
 ///////////////////////////////////////String
-class String: public Object{
+class String{
 	string txt;
 public:
 	String(string temp);
@@ -215,6 +215,7 @@ public:
 class Plane: public Object{//anaktish twn timwn aytwn
 	String title;
 	int max_pl;
+	int size_PassComp;
 	CargoBay* cargo;
 	EquipmentCompartment* e1;
 	EquipmentCompartment* e2;

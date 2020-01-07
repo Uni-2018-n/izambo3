@@ -53,13 +53,13 @@ void Object::clone(Object& sec){
 String::String(string temp):
 txt(temp){
 	#ifndef DEBUG
-	cout << "String just Created!" << endl;
+	//cout << "String just Created!" << endl;
 	#endif
 }
 
 String::~String(){
 	#ifndef DEBUG
-	cout << "String just destroyed!" << endl;
+	//cout << "String just destroyed!" << endl;
 	#endif
 }
 
@@ -310,15 +310,16 @@ void PlaneComponent::clone(PlaneComponent& sec){
 
 ///////////////////////////////////////PassengerCompartment
 PassengerCompartment::PassengerCompartment(){
-	if(rand() % 2){
-		Sub_PassCompartment = new PassengerCompartment();
-	}else{
-		Sub_PassCompartment = NULL;
-	}
 	SecWorker= false;
 	CleanWorker = false;
 	#ifndef DEBUG
 	cout << "PassengerCompartment just created" << endl;
+	if(rand() % 3 == 0){
+		cout << "Sub PassengerCompartment about to be created:" << endl;
+		Sub_PassCompartment = new PassengerCompartment();
+	}else{
+		Sub_PassCompartment = NULL;
+	}
 	#endif
 }
 
@@ -326,6 +327,7 @@ PassengerCompartment::~PassengerCompartment(){
 	#ifndef DEBUG
 	cout << "PassengerCompartment to be destroyed" << endl;
 	#endif
+	delete Sub_PassCompartment;
 }
 
 bool PassengerCompartment::ready_check(){
@@ -335,7 +337,7 @@ bool PassengerCompartment::ready_check(){
 		}
 	}
 	if(SecWorker && CleanWorker){
-		toString().print();
+		//toString().print();
 		cout << "PassengerCompartment OK!" << endl;
 		if(Sub_PassCompartment != NULL){
 			cout << "Sub: ";
@@ -364,10 +366,10 @@ String PassengerCompartment::toString(){
 		temp.concat(temp2);
 	}
 	if(Sub_PassCompartment != NULL){
-		String temp2("Sub_PassCompartment, " + Sub_PassCompartment->toString().get_txt());
+		String temp2("\n	{Sub_PassCompartment, " + Sub_PassCompartment->toString().get_txt() + "}");
 		temp.concat(temp2);
 	}else{
-		String temp2("No Sub_PassCompartment. ");
+		String temp2("No Sub_PassCompartment.");
 		temp.concat(temp2);
 	}
 	return temp;
@@ -375,14 +377,20 @@ String PassengerCompartment::toString(){
 
 void PassengerCompartment::process(SecurityEmployee& worker){
 	if(Sub_PassCompartment != NULL){
-		Sub_PassCompartment->process(worker);
+		cout << "{Sub PassengerCompartment: ";
+		worker.workOn(*Sub_PassCompartment);
+		worker.report(*Sub_PassCompartment);
+		cout << "}" << endl;
 	}
 	SecWorker= true;
 }
 
 void PassengerCompartment::process(CleaningEployee& worker){
 	if(Sub_PassCompartment != NULL){
-		Sub_PassCompartment->process(worker);
+		cout << "{Sub PassengerCompartment: ";
+		worker.workOn(*Sub_PassCompartment);
+		worker.report(*Sub_PassCompartment);
+		cout << "}" << endl;
 	}
 	CleanWorker=true;
 }
@@ -401,9 +409,13 @@ bool PassengerCompartment::equal(PassengerCompartment& sec){
 }
 
 void PassengerCompartment::clone(PassengerCompartment& sec){
-	if(Sub_PassCompartment != NULL && sec.Sub_PassCompartment != NULL){
-		Sub_PassCompartment->clone(*(sec.Sub_PassCompartment));
-	}else if(sec.Sub_PassCompartment != NULL){
+	// if(Sub_PassCompartment != NULL && sec.Sub_PassCompartment != NULL){
+	// 	Sub_PassCompartment->clone(*(sec.Sub_PassCompartment));
+	// }else
+	if(Sub_PassCompartment != NULL){
+		delete Sub_PassCompartment;
+	}
+	if(sec.Sub_PassCompartment != NULL){
 		Sub_PassCompartment= new PassengerCompartment;
 		Sub_PassCompartment->clone(*(sec.Sub_PassCompartment));
 	}
@@ -429,7 +441,7 @@ PrivateCompartment::~PrivateCompartment(){
 
 bool PrivateCompartment::ready_check(){
 	if(SecWorker && CleanWorker){
-		toString().print();
+		//toString().print();
 		cout << "PrivateCompartment OK!" << endl;
 		return true;
 	}else{
@@ -496,7 +508,7 @@ EquipmentCompartment::~EquipmentCompartment(){
 
 bool EquipmentCompartment::ready_check(){
 	if(SecWorker && MaintWorker){
-		toString().print();
+		//toString().print();
 		cout << "EquipmentCompartment OK!" << endl;
 		return true;
 	}else{
@@ -552,24 +564,23 @@ CargoBay::CargoBay(){
 	MaintWorker= false;
 	#ifndef DEBUG
 	cout << "CargoBay just created" << endl;
-	cout<< "creating equipment_space" << endl;
+	cout << "Equipment_space is about to be created:" << endl;
 	#endif
 	equipment_space= new EquipmentCompartment();
-	#ifndef DEBUG
-	cout << "equipment_space created" << endl;
-	#endif
+
 }
 
 CargoBay::~CargoBay(){
 	#ifndef DEBUG
 	cout << "CargoBay to be destroyed" << endl;
 	#endif
+	delete equipment_space;
 }
 
 bool CargoBay::ready_check(){
 	if(equipment_space->ready_check()){
 		if(SecWorker && CleanWorker && MaintWorker){
-			toString().print();
+			//toString().print();
 			cout << "CargoBay OK!" << endl;
 			return true;
 		}else{
@@ -604,11 +615,15 @@ String CargoBay::toString(){
 		String temp2("Need MaintenanceEmployee to work here. ");
 		temp.concat(temp2);
 	}
+	String temp2("\n	{CargoBay's Equipment_space, " + equipment_space->toString().get_txt() + "}");
+	temp.concat(temp2);
 	return temp;
 }
 
 void CargoBay::process(SecurityEmployee& worker){
-	equipment_space->process(worker);
+	cout << "Equipment_space of CargoBay: ";
+	worker.workOn(*equipment_space);
+	worker.report(*equipment_space);
 	SecWorker = true;
 }
 
@@ -617,7 +632,9 @@ void CargoBay::process(CleaningEployee& worker){
 }
 
 void CargoBay::process(MaintenanceEmployee& worker){
-	equipment_space->process(worker);
+	cout << "Equipment_space of CargoBay: ";
+	worker.workOn(*equipment_space);
+	worker.report(*equipment_space);
 	MaintWorker = true;
 }
 
@@ -648,15 +665,25 @@ title(titl), max_pl(ma_pl){
 	#endif
 	cout << " Plane with ID: " << get_id() << endl;
 	cargo = new CargoBay();
+	cout << "CARGOBAY DONE" << endl;
 	e1= new EquipmentCompartment();
+	cout << "E1 DONE" << endl;
 	e2= new EquipmentCompartment();
+	cout << "E2 DONE " << endl;
 	e3= new EquipmentCompartment();
+	cout << "E3 DONE" << endl;
 
-	if(max_pl % 10 == 0){
-		pl_PassComp= new PassengerCompartment*[max_pl/50];
-		for(int i=0;i<max_pl/50;i++){
-			pl_PassComp[i]= new PassengerCompartment;
-		}
+
+	float temp = max_pl/75.0;
+	if(temp == (int)temp){
+		size_PassComp = (int)temp;
+	}else{
+		size_PassComp = ((int)temp)+ 1;
+	}
+	pl_PassComp= new PassengerCompartment*[size_PassComp];
+	for(int i=0;i<size_PassComp;i++){
+		pl_PassComp[i]= new PassengerCompartment;
+		cout << "PASS COMPARTMENT DONE" << endl << endl << endl;
 	}
 }
 
@@ -665,7 +692,7 @@ Plane::~Plane(){
 	delete e1;
 	delete e2;
 	delete e3;
-	for(int i=0;i<max_pl/50;i++){
+	for(int i=0;i<size_PassComp;i++){
 		delete pl_PassComp[i];
 	}
 	delete[] pl_PassComp;
@@ -688,8 +715,8 @@ bool Plane::ready_check(){
 	if(!e3->ready_check()){
 			return false;
 	}
-	int temp=max_pl/50;
-	for(int i=0;i<temp;i++){
+	// int temp=max_pl/50;
+	for(int i=0;i<size_PassComp;i++){
 		if(!pl_PassComp[i]->ready_check()){
 			return false;
 		}
@@ -703,7 +730,7 @@ String Plane::toString(){
 	"Plane, title= " + title.get_txt() + ", max_pl= " + to_string(max_pl) + ", " +
 	"Parts: \n" +
 	cargo->toString().get_txt() + "\n" + e1->toString().get_txt() + "\n" + e2->toString().get_txt() + "\n" + e3->toString().get_txt());
-	for(int i=0;i<4;i++){
+	for(int i=0;i<size_PassComp;i++){
 		String temp2("\n" + pl_PassComp[i]->toString().get_txt());
 		temp.concat(temp2);
 	}
@@ -727,7 +754,7 @@ void Plane::process(SecurityEmployee& worker){//explain oti apo to lists
 		worker.workOn(*e3);
 		worker.report(*e3);
 	}
-	for(int i=0;i<4;i++){
+	for(int i=0;i<size_PassComp;i++){
 		if(!pl_PassComp[i]->ready_check()){
 			worker.workOn(*pl_PassComp[i]);
 			worker.report(*pl_PassComp[i]);
@@ -758,7 +785,7 @@ void Plane::process(CleaningEployee& worker){
 		worker.workOn(*cargo);
 		worker.report(*cargo);
 	}
-	for(int i=0;i<4;i++){
+	for(int i=0;i<size_PassComp;i++){
 		if(!pl_PassComp[i]->ready_check()){
 			worker.workOn(*pl_PassComp[i]);
 			worker.report(*pl_PassComp[i]);
@@ -770,7 +797,7 @@ bool Plane::equal(Plane& sec){
 	if(title.get_txt() == sec.title.get_txt() && max_pl == sec.max_pl){
 		if(cargo->equal(*(sec.cargo))){
 			if(e1->equal(*(sec.e1)) && e2->equal(*(sec.e2)) && e3->equal(*(sec.e3))){
-				for(int i=0;i<4;i++){
+				for(int i=0;i<size_PassComp;i++){
 					if(!(pl_PassComp[i]->equal(*(sec.pl_PassComp[i])))){
 						return false;
 					}
@@ -785,11 +812,18 @@ bool Plane::equal(Plane& sec){
 void Plane::clone(Plane& sec){
 	title = sec.title;
 	max_pl = sec.max_pl;
+	for(int i=0;i<size_PassComp;i++){
+		delete pl_PassComp[i];
+	}
+	delete[] pl_PassComp;
+	size_PassComp = sec.size_PassComp;
 	cargo->clone(*(sec.cargo));
 	e1->clone(*(sec.e1));
 	e2->clone(*(sec.e2));
 	e3->clone(*(sec.e3));
-	for(int i=0;i<4;i++){
+	pl_PassComp = new PassengerCompartment*[size_PassComp];
+	for(int i=0;i<size_PassComp;i++){
+		pl_PassComp[i] = new PassengerCompartment;
 		pl_PassComp[i]->clone(*(sec.pl_PassComp[i]));
 	}
 	Object::clone(sec);

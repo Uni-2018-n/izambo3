@@ -12,7 +12,6 @@ compile : $(SOURCE)
 	g++ -std=c++11 -Wall -g3 -o $(ITEM) $(SOURCE)
 
 clean :
-	-rm -rf $(ITEM)
 	-rm -rf *.o
 
 compress: $(SOURCE)

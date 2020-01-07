@@ -1,9 +1,9 @@
-//clone_and_encrypt, rwta gia to {}, restore tostring of readycheck, restore string object and messeges,
-//clone 8elei fix meta to destructors ths passenger compartment
+//clone_and_encrypt, rwta gia to {}, restore tostring of readycheck, restore string object and messeges
+
 #include "classes.h"
 
 int main(){
-	srand(4);
+	srand(time(NULL));
 	String plane_Title("Daboing1");
 	Plane my_plane(plane_Title, 200);
 	cout << "PLANE CONSTRUCTOR DONE" << endl << endl;
@@ -36,14 +36,6 @@ int main(){
 	}else{
 		cout << "Plane not ready ERROR ERROR COLLISION COLLISION " << endl << endl;
 	}
-
-	Plane test_plane(plane_Title, 1);
-	test_plane.clone(my_plane);
-	// if(test_plane.equal(my_plane)){
-	// 	cout << "TRUEEEEEEEEEEEEEEEEE " << endl;
-	// }else{
-	// 	cout << "FALSEEEEEEEEEEEEEEEE" << endl;
-	// }
 
 	cout << endl << "PLANE DESTRUCTOR" << endl;
 	return 0;

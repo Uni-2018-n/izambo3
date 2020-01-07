@@ -409,13 +409,11 @@ bool PassengerCompartment::equal(PassengerCompartment& sec){
 }
 
 void PassengerCompartment::clone(PassengerCompartment& sec){
-	// if(Sub_PassCompartment != NULL && sec.Sub_PassCompartment != NULL){
-	// 	Sub_PassCompartment->clone(*(sec.Sub_PassCompartment));
-	// }else
-	if(Sub_PassCompartment != NULL){
+	if(Sub_PassCompartment != NULL && sec.Sub_PassCompartment != NULL){
 		delete Sub_PassCompartment;
-	}
-	if(sec.Sub_PassCompartment != NULL){
+		Sub_PassCompartment= new PassengerCompartment;
+		Sub_PassCompartment->clone(*(sec.Sub_PassCompartment));
+	}else	if(sec.Sub_PassCompartment != NULL){
 		Sub_PassCompartment= new PassengerCompartment;
 		Sub_PassCompartment->clone(*(sec.Sub_PassCompartment));
 	}

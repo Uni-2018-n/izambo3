@@ -75,6 +75,10 @@ void String::concat(String sec){
 	txt = txt+ sec.txt;
 }
 
+void String::concat(string sec){
+	txt=txt + sec;
+}
+
 char String::at(int pos){
 	return txt[pos];
 }
@@ -352,25 +356,19 @@ bool PassengerCompartment::ready_check(){
 String PassengerCompartment::toString(){
 	String temp(PlaneComponent::toString().get_txt() + "PassengerCompartment, ");
 	if(SecWorker){
-		String temp2("SecurityEmployee worked here, ");
-		temp.concat(temp2);
+		temp.concat("SecurityEmployee worked here, ");
 	}else{
-		String temp2("Need SecurityEmployee to work here, ");
-		temp.concat(temp2);
+		temp.concat("Need SecurityEmployee to work here, ");
 	}
 	if(CleanWorker){
-		String temp2("CleaningEployee worked here, ");
-		temp.concat(temp2);
+		temp.concat("CleaningEployee worked here, ");
 	}else{
-		String temp2("Need CleaningEployee to work here, ");
-		temp.concat(temp2);
+		temp.concat("Need CleaningEployee to work here, ");
 	}
 	if(Sub_PassCompartment != NULL){
-		String temp2("\n	{Sub_PassCompartment, " + Sub_PassCompartment->toString().get_txt() + "}");
-		temp.concat(temp2);
+		temp.concat("\n	{Sub_PassCompartment, " + Sub_PassCompartment->toString().get_txt() + "}");
 	}else{
-		String temp2("No Sub_PassCompartment.");
-		temp.concat(temp2);
+		temp.concat("No Sub_PassCompartment.");
 	}
 	return temp;
 }
@@ -450,18 +448,14 @@ bool PrivateCompartment::ready_check(){
 String PrivateCompartment::toString(){
 	String temp(PlaneComponent::toString().get_txt() + "PrivateCompartment, ");
 	if(SecWorker){
-		String temp2("SecurityEmployee worked here, ");
-		temp.concat(temp2);
+		temp.concat("SecurityEmployee worked here, ");
 	}else{
-		String temp2("Need SecurityEmployee to work here, ");
-		temp.concat(temp2);
+		temp.concat("Need SecurityEmployee to work here, ");
 	}
 	if(CleanWorker){
-		String temp2("CleaningEployee worked here. ");
-		temp.concat(temp2);
+		temp.concat("CleaningEployee worked here. ");
 	}else{
-		String temp2("Need CleaningEployee to work here, ");
-		temp.concat(temp2);
+		temp.concat("Need CleaningEployee to work here, ");
 	}
 	return temp;
 }
@@ -517,18 +511,14 @@ bool EquipmentCompartment::ready_check(){
 String EquipmentCompartment::toString(){
 	String temp(PlaneComponent::toString().get_txt() + "EquipmentCompartment, ");
 	if(SecWorker){
-		String temp2("SecurityEmployee worked here, ");
-		temp.concat(temp2);
+		temp.concat("SecurityEmployee worked here, ");
 	}else{
-		String temp2("Need SecurityEmployee to work here, ");
-		temp.concat(temp2);
+		temp.concat("Need SecurityEmployee to work here, ");
 	}
 	if(MaintWorker){
-		String temp2("MaintenanceEmployee worked here. ");
-		temp.concat(temp2);
+		temp.concat("MaintenanceEmployee worked here. ");
 	}else{
-		String temp2("Need MaintenanceEmployee to work here. ");
-		temp.concat(temp2);
+		temp.concat("Need MaintenanceEmployee to work here. ");
 	}
 	return temp;
 }
@@ -593,28 +583,21 @@ String CargoBay::toString(){
 	String temp(PlaneComponent::toString().get_txt() + "CargoBay, ");
 
 	if(SecWorker){
-		String temp2("SecurityEmployee worked here, ");
-		temp.concat(temp2);
+		temp.concat("SecurityEmployee worked here, ");
 	}else{
-		String temp2("Need SecurityEmployee to work here, ");
-		temp.concat(temp2);
+		temp.concat("Need SecurityEmployee to work here, ");
 	}
 	if(CleanWorker){
-		String temp2("CleaningEployee worked here, ");
-		temp.concat(temp2);
+		temp.concat("CleaningEployee worked here, ");
 	}else{
-		String temp2("Need CleaningEployee to work here, ");
-		temp.concat(temp2);
+		temp.concat("Need CleaningEployee to work here, ");
 	}
 	if(MaintWorker){
-		String temp2("MaintenanceEmployee worked here. ");
-		temp.concat(temp2);
+		temp.concat("MaintenanceEmployee worked here. ");
 	}else{
-		String temp2("Need MaintenanceEmployee to work here. ");
-		temp.concat(temp2);
+		temp.concat("Need MaintenanceEmployee to work here. ");
 	}
-	String temp2("\n	{CargoBay's Equipment_space, " + equipment_space->toString().get_txt() + "}");
-	temp.concat(temp2);
+	temp.concat("\n	{CargoBay's Equipment_space, " + equipment_space->toString().get_txt() + "}");
 	return temp;
 }
 
@@ -729,8 +712,7 @@ String Plane::toString(){
 	"Parts: \n" +
 	cargo->toString().get_txt() + "\n" + e1->toString().get_txt() + "\n" + e2->toString().get_txt() + "\n" + e3->toString().get_txt());
 	for(int i=0;i<size_PassComp;i++){
-		String temp2("\n" + pl_PassComp[i]->toString().get_txt());
-		temp.concat(temp2);
+		temp.concat("\n" + pl_PassComp[i]->toString().get_txt());
 	}
 	return temp;
 }

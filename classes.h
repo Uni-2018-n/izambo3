@@ -44,6 +44,7 @@ public:
 	int length();
 	void clear();
 	void concat(String sec);
+	void concat(string sec);
 	char at(int pos);
 	void updateAt(int pos, char rep);
 	void print();

@@ -24,7 +24,7 @@ protected:
 	int id;
 public:
 	Object();
-	~Object();
+	virtual ~Object();
 	virtual bool equal(Object& sec);
 	bool identical(Object& sec);//kai gia alles synarthseis
 	virtual Object* clone()=0;
@@ -100,6 +100,7 @@ public:
 	~MaintenanceEmployee();
 	void workOn(CargoBay& work_place);
 	void workOn(EquipmentCompartment& work_place);
+
 	void report(CargoBay& work_place);
 	void report(EquipmentCompartment& work_place);
 
@@ -116,6 +117,7 @@ public:
 	~CleaningEployee();
 	void workOn(CargoBay& work_place);
 	void workOn(PassengerCompartment& work_place);
+
 	void report(CargoBay& work_place);
 	void report(PassengerCompartment& work_place);
 

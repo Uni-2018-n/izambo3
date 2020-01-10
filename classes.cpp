@@ -349,17 +349,14 @@ PassengerCompartment::~PassengerCompartment(){
 }
 
 bool PassengerCompartment::ready_check(){
-	if(Sub_PassCompartment != NULL){
-		if(!(Sub_PassCompartment->ready_check())){
-			return false;
-		}
-	}
 	if(SecWorker && CleanWorker){
 		//toString().print();
 		cout << "PassengerCompartment OK!" << endl;
 		if(Sub_PassCompartment != NULL){
 			cout << "Sub: ";
-			Sub_PassCompartment->ready_check();
+			if(!(Sub_PassCompartment->ready_check())){
+				return false;
+			}
 		}
 		return true;
 	}else{
@@ -646,7 +643,7 @@ bool CargoBay::equal(CargoBay& sec){
 
 CargoBay* CargoBay::clone(){
 	CargoBay* temp= new CargoBay;
-	delete temp->equipment_space;//fix this!
+	delete temp->equipment_space;
 	temp->SecWorker = SecWorker;
 	temp->CleanWorker = CleanWorker;
 	temp->MaintWorker = MaintWorker;
@@ -695,6 +692,7 @@ Plane::Plane(){
 }
 
 Plane::~Plane(){
+	delete title;
 	delete cargo;
 	delete e1;
 	delete e2;
@@ -722,7 +720,6 @@ bool Plane::ready_check(){
 	if(!e3->ready_check()){
 			return false;
 	}
-	// int temp=max_pl/50;
 	for(int i=0;i<size_PassComp;i++){
 		if(!pl_PassComp[i]->ready_check()){
 			return false;
@@ -808,7 +805,7 @@ bool Plane::equal(Plane& sec){
 						return false;
 					}
 				}
-				return true;
+				return Object::equal(sec);
 			}
 		}
 	}

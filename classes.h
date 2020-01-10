@@ -1,8 +1,5 @@
 #include <iostream>
-#include <cstring>
 using namespace std;
-
-
 
 //forward declaration
 
@@ -22,6 +19,7 @@ class Plane;
 
 ///////////////////////////////////////Object
 class Object{
+protected:
 	static int temp_id;
 	int id;
 public:
@@ -29,7 +27,7 @@ public:
 	~Object();
 	virtual bool equal(Object& sec);
 	bool identical(Object& sec);//kai gia alles synarthseis
-	virtual void clone(Object& sec);
+	virtual Object* clone()=0;
 	virtual String toString();
 
 	int get_id();
@@ -50,10 +48,15 @@ public:
 	void print();
 
 	string  get_txt();
+
+	String* clone();
+
+	// String toString();
 };
 
 ///////////////////////////////////////Employee
 class Employee: public Object{
+protected:
 	String name;
 public:
 	Employee(String nam);
@@ -68,7 +71,7 @@ public:
 	virtual String toString();
 
 	virtual bool equal(Employee& sec);
-	virtual void clone(Employee& sec);
+	virtual Employee* clone()=0;
 };
 
 ///////////////////////////////////////SecurityEmployee
@@ -87,7 +90,7 @@ public:
 	String toString();
 
 	bool equal(SecurityEmployee& sec);
-	void clone(SecurityEmployee& sec);
+	SecurityEmployee* clone();
 };
 
 ///////////////////////////////////////MaintenanceEmployee
@@ -103,7 +106,7 @@ public:
 	String toString();
 
 	bool equal(MaintenanceEmployee& sec);
-	void clone(MaintenanceEmployee& sec);
+	MaintenanceEmployee* clone();
 };
 
 ///////////////////////////////////////CleaningEployee
@@ -119,7 +122,7 @@ public:
 	String toString();
 
 	bool equal(CleaningEployee& sec);
-	void clone(CleaningEployee& sec);
+	CleaningEployee* clone();
 
 };
 
@@ -137,7 +140,7 @@ public:
 
 	virtual bool equal(PlaneComponent& sec);
 
-	virtual void clone(PlaneComponent& sec);
+	virtual PlaneComponent* clone()=0;
 };
 
 ///////////////////////////////////////PassengerCompartment
@@ -145,8 +148,10 @@ class PassengerCompartment: public PlaneComponent{
 	PassengerCompartment* Sub_PassCompartment;
 	bool SecWorker;
 	bool CleanWorker;
+	void remove_subs();
 public:
 	PassengerCompartment();
+	PassengerCompartment(bool subs);
 	~PassengerCompartment();
 	bool ready_check();
 	String toString();
@@ -155,11 +160,12 @@ public:
 
 	bool equal(PassengerCompartment& sec);
 
-	void clone(PassengerCompartment& sec);
+	PassengerCompartment* clone();
 };
 
 ///////////////////////////////////////PrivateCompartment
 class PrivateCompartment: public PlaneComponent{
+protected:
 	bool SecWorker;
 	bool CleanWorker;
 public:
@@ -172,7 +178,7 @@ public:
 
 	bool equal(PrivateCompartment& sec);
 
-	void clone(PrivateCompartment& sec);
+	virtual PrivateCompartment* clone()=0;
 };
 
 ///////////////////////////////////////EquipmentCompartment
@@ -189,7 +195,7 @@ public:
 
 	bool equal(EquipmentCompartment& sec);
 
-	void clone(EquipmentCompartment& sec);
+	EquipmentCompartment* clone();
 };
 
 ///////////////////////////////////////CargoBay
@@ -209,12 +215,12 @@ public:
 
 	bool equal(CargoBay& sec);
 
-	void clone(CargoBay& sec);
+	CargoBay* clone();
 };
 
 ///////////////////////////////////////Plane
 class Plane: public Object{//anaktish twn timwn aytwn
-	String title;
+	String* title;
 	int max_pl;
 	int size_PassComp;
 	CargoBay* cargo;
@@ -224,6 +230,7 @@ class Plane: public Object{//anaktish twn timwn aytwn
 	PassengerCompartment** pl_PassComp;
 public:
 	Plane(String titl, int ma_pl=40);
+	Plane();
 	~Plane();
 	bool ready_check();
 	String toString();
@@ -233,5 +240,5 @@ public:
 
 	bool equal(Plane& sec);
 
-	void clone(Plane& sec);
+	Plane* clone();
 };

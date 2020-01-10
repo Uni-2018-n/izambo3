@@ -1,5 +1,6 @@
 //clone_and_encrypt, rwta gia to {}, restore tostring of readycheck, restore string object and messeges
-
+//fix the constructor messeges, memory leaks, check something with the Sub_PassCompartment ready_check
+//649 line
 #include "classes.h"
 
 int main(){
@@ -36,6 +37,18 @@ int main(){
 	}else{
 		cout << "Plane not ready ERROR ERROR COLLISION COLLISION " << endl << endl;
 	}
+
+	cout << endl << endl << "<CLONE>" << endl;
+	Plane* test_plane= my_plane.clone();
+	cout << endl <<"test_plane : toString :" << endl;
+	test_plane->toString().print();
+	cout << endl << "test_plane : ready_check:" << endl;
+	if(test_plane->ready_check()){
+		cout << "READY" << endl;
+	}else{
+		cout << "NOT READY" << endl << endl;
+	}
+	cout << "</CLONE>" << endl << endl << endl;
 
 	cout << endl << "PLANE DESTRUCTOR" << endl;
 	return 0;

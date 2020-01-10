@@ -244,3 +244,5 @@ public:
 
 	Plane* clone();
 };
+
+void clone_encrypt_and_print(Object& sec);

@@ -828,3 +828,42 @@ Plane* Plane::clone(){
 	temp->id= id;
 	return temp;
 }
+
+//Clone encrypt and print
+void clone_encrypt_and_print(Object& sec){
+	Object* temp=sec.clone();
+	cout << "Equal: ";
+	if(temp->equal(sec)){
+		cout << "TRUE" << endl;
+	}else{
+		cout << "FALSE" << endl;
+	}
+	String tempSTR= temp->toString();
+	String secSTR= sec.toString();
+
+	int rand_how_many = rand() % tempSTR.length();
+	int change;
+	int from;
+	for(int i=0;i<rand_how_many;i++){
+		change= rand()% (tempSTR.length() - 1);
+		from = rand()% (tempSTR.length() - 1);
+		tempSTR.updateAt(change, tempSTR.at(from));
+	}
+	cout << endl << "tempSTR: ";
+	tempSTR.print();
+	cout << endl << "secSTR: ";
+	secSTR.print();
+
+	tempSTR.concat(secSTR);
+	cout << "length after concat: " << tempSTR.length() << endl;
+	cout << "Midle ";
+	if(tempSTR.length() % 2 != 0){
+		cout << "characters: ";
+		cout << tempSTR.at((int)tempSTR.length()/2) << ", " << tempSTR.at(((int)tempSTR.length()/2) + 1) << endl;
+	}else{
+		cout << "character: ";
+		cout << tempSTR.at(tempSTR.length()/2) << endl;
+	}
+	tempSTR.clear();
+	cout << "length of tempSTR after clear: " << tempSTR.length() << endl;
+}

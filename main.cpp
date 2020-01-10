@@ -1,9 +1,9 @@
-//clone_and_encrypt, rwta gia to {}, restore tostring of readycheck, restore string object and messeges
-//fix the constructor messeges
+//rwta gia to {}, restore tostring of readycheck, restore string object and messeges
+//ask for the constructor messages of clone
 #include "classes.h"
 
 int main(){
-	srand(time(NULL));
+	srand(0);
 	String plane_Title("Daboing1");
 	Plane my_plane(plane_Title, 200);
 	cout << "PLANE CONSTRUCTOR DONE" << endl << endl;
@@ -48,6 +48,10 @@ int main(){
 	}
 	delete test_plane;
 	cout << "</CLONE>" << endl << endl << endl;
+
+	cout << "<clone_encrypt_and_print>" << endl;
+	clone_encrypt_and_print(my_plane);
+	cout << "</clone_encrypt_and_print>" << endl;
 
 	cout << endl << "PLANE DESTRUCTOR" << endl;
 	return 0;

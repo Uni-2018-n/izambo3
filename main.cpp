@@ -1,4 +1,4 @@
-//rwta gia to {}, restore tostring of readycheck, restore string object and messeges
+//rwta gia to {}, restore tostring of readycheck
 //ask for the constructor messages of clone
 #include "classes.h"
 
@@ -17,7 +17,7 @@ int main(){
 	MaintEmpl.toString().print();
 
 	String CleanEmp_Title("Mike");
-	CleaningEployee CleanEmpl(CleanEmp_Title);
+	CleaningEmployee CleanEmpl(CleanEmp_Title);
 	CleanEmpl.toString().print();
 
 	cout << "EMPLOYEE DONE" << endl << endl;

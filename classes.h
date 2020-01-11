@@ -7,7 +7,7 @@ class String;
 class Employee;
 class SecurityEmployee;
 class MaintenanceEmployee;
-class CleaningEployee;
+class CleaningEmployee;
 
 class PlaneComponent;
 class PassengerCompartment;
@@ -34,7 +34,7 @@ public:
 };
 
 ///////////////////////////////////////String
-class String{
+class String:public Object{
 	string txt;
 public:
 	String(const string temp);
@@ -51,7 +51,7 @@ public:
 
 	String* clone()const;
 
-	// String toString();
+	String toString()const;
 };
 
 ///////////////////////////////////////Employee
@@ -110,11 +110,11 @@ public:
 	MaintenanceEmployee* clone()const;
 };
 
-///////////////////////////////////////CleaningEployee
-class CleaningEployee: public Employee{//CargoBay, PassengerCompartment
+///////////////////////////////////////CleaningEmployee
+class CleaningEmployee: public Employee{//CargoBay, PassengerCompartment
 public:
-	CleaningEployee(const String nam);
-	~CleaningEployee();
+	CleaningEmployee(const String nam);
+	~CleaningEmployee();
 	void workOn(CargoBay& work_place);
 	void workOn(PassengerCompartment& work_place);
 
@@ -123,8 +123,8 @@ public:
 
 	String toString()const;
 
-	bool equal(const CleaningEployee& sec)const;
-	CleaningEployee* clone()const;
+	bool equal(const CleaningEmployee& sec)const;
+	CleaningEmployee* clone()const;
 
 };
 
@@ -135,7 +135,7 @@ public:
 	virtual ~PlaneComponent();
 	virtual bool ready_check()const=0;
 	virtual void process(SecurityEmployee& worker){};
-	virtual void process(CleaningEployee& worker){};
+	virtual void process(CleaningEmployee& worker){};
 	virtual void process(MaintenanceEmployee& worker){};
 
 	virtual String toString()const;
@@ -158,7 +158,7 @@ public:
 	bool ready_check()const;
 	String toString()const;
 	void process(SecurityEmployee& worker);
-	void process(CleaningEployee& worker);
+	void process(CleaningEmployee& worker);
 
 	bool equal(const PassengerCompartment& sec)const;
 
@@ -176,7 +176,7 @@ public:
 	virtual bool ready_check()const;
 	String toString()const;
 	virtual void process(SecurityEmployee& worker);
-	virtual void process(CleaningEployee& worker);
+	virtual void process(CleaningEmployee& worker);
 
 	bool equal(const PrivateCompartment& sec)const;
 
@@ -212,7 +212,7 @@ public:
 	bool ready_check()const;
 	String toString()const;
 	void process(SecurityEmployee& worker);
-	void process(CleaningEployee& worker);
+	void process(CleaningEmployee& worker);
 	void process(MaintenanceEmployee& worker);
 
 	bool equal(const CargoBay& sec)const;
@@ -238,7 +238,7 @@ public:
 	String toString()const;
 	void process(SecurityEmployee& worker);
 	void process(MaintenanceEmployee& worker);
-	void process(CleaningEployee& worker);
+	void process(CleaningEmployee& worker);
 
 	bool equal(const Plane& sec)const;
 

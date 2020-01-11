@@ -55,13 +55,13 @@ String* String::clone()const{
 String::String(const string temp):
 txt(temp){
 	#ifndef DEBUG
-	//cout << "String just Created!" << endl;
+	cout << "String just Created! with id: " << id << endl;
 	#endif
 }
 
 String::~String(){
 	#ifndef DEBUG
-	//cout << "String just destroyed!" << endl;
+	cout << "String just destroyed!" << endl;
 	#endif
 }
 
@@ -98,17 +98,17 @@ string String::get_txt()const{
 }
 
 
-// String String::toString(){
-// 	String temp(Object::toString().get_txt() + " String, txt=" + txt);
-// 	return temp;
-// }
+String String::toString()const{
+	String temp(Object::toString().get_txt() + " String, txt=" + txt);
+	return temp;
+}
 
 ///////////////////////////////////////Employee
 Employee::Employee(){
 	#ifndef DEBUG
 	cout << "Employee just created ";
-	#endif
 	cout << "Employee ID: " << get_id() << endl;
+	#endif
 }
 
 Employee::~Employee(){
@@ -240,43 +240,43 @@ MaintenanceEmployee* MaintenanceEmployee::clone()const{
 	temp->id=id;
 	return temp;
 }
-///////////////////////////////////////CleaningEployee
-CleaningEployee::CleaningEployee(const String nam){
+///////////////////////////////////////CleaningEmployee
+CleaningEmployee::CleaningEmployee(const String nam){
 	name= nam.clone();
 	#ifndef DEBUG
-	cout << "CleaningEployee just created " << endl;
+	cout << "CleaningEmployee just created " << endl;
 	#endif
 }
 
-CleaningEployee::~CleaningEployee(){
+CleaningEmployee::~CleaningEmployee(){
 	#ifndef DEBUG
-	cout << "CleaningEployee to be destroyed" << endl;
+	cout << "CleaningEmployee to be destroyed" << endl;
 	#endif
 }
 
-void CleaningEployee:: workOn(CargoBay& work_place){
-	cout << "I CleaningEployee, started working into a Cargo Bay" << endl;
+void CleaningEmployee:: workOn(CargoBay& work_place){
+	cout << "I CleaningEmployee, started working into a Cargo Bay" << endl;
 	work_place.process(*this);
 }
-void CleaningEployee::workOn(PassengerCompartment& work_place){
-	cout << "I CleaningEployee, started working into a Passenger Compartment" << endl;
+void CleaningEmployee::workOn(PassengerCompartment& work_place){
+	cout << "I CleaningEmployee, started working into a Passenger Compartment" << endl;
 	work_place.process(*this);
 }
 
-void CleaningEployee::report(const CargoBay& work_place)const{
-	cout << "CleaningEployee keep working on CargoBay" << endl;
+void CleaningEmployee::report(const CargoBay& work_place)const{
+	cout << "CleaningEmployee keep working on CargoBay" << endl;
 }
 
-void CleaningEployee::report(const PassengerCompartment& work_place)const{
-	cout << "CleaningEployee keep working on PassengerCompartment" << endl;
+void CleaningEmployee::report(const PassengerCompartment& work_place)const{
+	cout << "CleaningEmployee keep working on PassengerCompartment" << endl;
 }
 
-String CleaningEployee::toString()const{
-	String temp(Employee::toString().get_txt() + "CleaningEployee");
+String CleaningEmployee::toString()const{
+	String temp(Employee::toString().get_txt() + "CleaningEmployee");
 	return temp;
 }
 
-bool CleaningEployee::equal(const CleaningEployee& sec)const{
+bool CleaningEmployee::equal(const CleaningEmployee& sec)const{
 	if(Employee::equal(sec)){
 		return true;
 	}else{
@@ -284,8 +284,8 @@ bool CleaningEployee::equal(const CleaningEployee& sec)const{
 	}
 }
 
-CleaningEployee* CleaningEployee::clone()const{
-	CleaningEployee* temp= new CleaningEployee(*name);
+CleaningEmployee* CleaningEmployee::clone()const{
+	CleaningEmployee* temp= new CleaningEmployee(*name);
 	temp->id=id;
 	return temp;
 }
@@ -294,8 +294,8 @@ CleaningEployee* CleaningEployee::clone()const{
 PlaneComponent::PlaneComponent(){
 	#ifndef DEBUG
 	cout << "PlaneComponent just created ";
-	#endif
 	cout << "PlaneComponent ID: " << get_id() << endl;
+	#endif
 }
 
 PlaneComponent::~PlaneComponent(){
@@ -325,7 +325,9 @@ PassengerCompartment::PassengerCompartment(){
 	cout << "PassengerCompartment just created " << endl;
 	#endif
 	if(rand() % 3 == 0){
-		cout << "Sub PassengerCompartment about to be created:" << endl;
+		#ifndef DEBUG
+			cout << "Sub PassengerCompartment about to be created:" << endl;
+		#endif
 		Sub_PassCompartment = new PassengerCompartment();
 	}else{
 		Sub_PassCompartment = NULL;
@@ -372,9 +374,9 @@ String PassengerCompartment::toString()const{
 		temp.concat("Need SecurityEmployee to work here, ");
 	}
 	if(CleanWorker){
-		temp.concat("CleaningEployee worked here, ");
+		temp.concat("CleaningEmployee worked here, ");
 	}else{
-		temp.concat("Need CleaningEployee to work here, ");
+		temp.concat("Need CleaningEmployee to work here, ");
 	}
 	if(Sub_PassCompartment != NULL){
 		temp.concat("\n	{Sub_PassCompartment, " + Sub_PassCompartment->toString().get_txt() + "}");
@@ -394,7 +396,7 @@ void PassengerCompartment::process(SecurityEmployee& worker){
 	SecWorker= true;
 }
 
-void PassengerCompartment::process(CleaningEployee& worker){
+void PassengerCompartment::process(CleaningEmployee& worker){
 	if(Sub_PassCompartment != NULL){
 		cout << "{Sub PassengerCompartment: ";
 		worker.workOn(*Sub_PassCompartment);
@@ -466,9 +468,9 @@ String PrivateCompartment::toString()const{
 		temp.concat("Need SecurityEmployee to work here, ");
 	}
 	if(CleanWorker){
-		temp.concat("CleaningEployee worked here. ");
+		temp.concat("CleaningEmployee worked here. ");
 	}else{
-		temp.concat("Need CleaningEployee to work here, ");
+		temp.concat("Need CleaningEmployee to work here, ");
 	}
 	return temp;
 }
@@ -477,7 +479,7 @@ void PrivateCompartment::process(SecurityEmployee& worker){
 	SecWorker = true;
 }
 
-void PrivateCompartment::process(CleaningEployee& worker){
+void PrivateCompartment::process(CleaningEmployee& worker){
 	CleanWorker = true;
 }
 
@@ -599,9 +601,9 @@ String CargoBay::toString()const{
 		temp.concat("Need SecurityEmployee to work here, ");
 	}
 	if(CleanWorker){
-		temp.concat("CleaningEployee worked here, ");
+		temp.concat("CleaningEmployee worked here, ");
 	}else{
-		temp.concat("Need CleaningEployee to work here, ");
+		temp.concat("Need CleaningEmployee to work here, ");
 	}
 	if(MaintWorker){
 		temp.concat("MaintenanceEmployee worked here. ");
@@ -619,7 +621,7 @@ void CargoBay::process(SecurityEmployee& worker){
 	SecWorker = true;
 }
 
-void CargoBay::process(CleaningEployee& worker){
+void CargoBay::process(CleaningEmployee& worker){
 	CleanWorker = true;
 }
 
@@ -659,17 +661,25 @@ Plane::Plane(const String& titl, const int ma_pl):
 max_pl(ma_pl){
 	#ifndef DEBUG
 	cout << "Plane just created ";
-	#endif
 	cout << "Plane with ID: " << get_id() << endl;
+	#endif
 	title= new String(titl);
 	cargo = new CargoBay();
+	#ifndef DEBUG
 	cout << "CARGOBAY DONE" << endl;
+	#endif
 	e1= new EquipmentCompartment();
+	#ifndef DEBUG
 	cout << "E1 DONE" << endl;
+	#endif
 	e2= new EquipmentCompartment();
+	#ifndef DEBUG
 	cout << "E2 DONE " << endl;
+	#endif
 	e3= new EquipmentCompartment();
+	#ifndef DEBUG
 	cout << "E3 DONE" << endl;
+	#endif
 
 
 	float temp = max_pl/75.0;
@@ -681,7 +691,9 @@ max_pl(ma_pl){
 	pl_PassComp= new PassengerCompartment*[size_PassComp];
 	for(int i=0;i<size_PassComp;i++){
 		pl_PassComp[i]= new PassengerCompartment;
+		#ifndef DEBUG
 		cout << "PASS COMPARTMENT DONE" << endl << endl << endl;
+		#endif
 	}
 }
 
@@ -783,7 +795,7 @@ void Plane::process(MaintenanceEmployee& worker){
 		worker.report(*e3);
 	}
 }
-void Plane::process(CleaningEployee& worker){
+void Plane::process(CleaningEmployee& worker){
 	if(!cargo->ready_check()){
 		worker.workOn(*cargo);
 		worker.report(*cargo);

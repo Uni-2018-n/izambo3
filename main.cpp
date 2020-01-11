@@ -3,7 +3,7 @@
 #include "classes.h"
 
 int main(){
-	srand(0);
+	srand(time(NULL));
 	String plane_Title("Daboing1");
 	Plane my_plane(plane_Title, 200);
 	cout << "PLANE CONSTRUCTOR DONE" << endl << endl;
@@ -52,7 +52,7 @@ int main(){
 	cout << "<clone_encrypt_and_print>" << endl;
 	clone_encrypt_and_print(my_plane);
 	cout << "</clone_encrypt_and_print>" << endl;
-	
+
 	cout << endl << "PLANE DESTRUCTOR" << endl;
 	return 0;
 }

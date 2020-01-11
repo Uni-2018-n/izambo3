@@ -25,31 +25,31 @@ protected:
 public:
 	Object();
 	virtual ~Object();
-	virtual bool equal(Object& sec);
-	bool identical(Object& sec);//kai gia alles synarthseis
-	virtual Object* clone()=0;
-	virtual String toString();
+	virtual bool equal(const Object& sec)const;
+	bool identical(const Object& sec)const;//kai gia alles synarthseis
+	virtual Object* clone()const=0;
+	virtual String toString()const;
 
-	int get_id();
+	int get_id()const;
 };
 
 ///////////////////////////////////////String
 class String{
 	string txt;
 public:
-	String(string temp);
+	String(const string temp);
 	~String();
-	int length();
+	int length()const;
 	void clear();
-	void concat(String sec);
-	void concat(string sec);
-	char at(int pos);
-	void updateAt(int pos, char rep);
-	void print();
+	void concat(const String sec);
+	void concat(const string sec);
+	char at(int pos)const;
+	void updateAt(const int pos, const char rep);
+	void print()const;
 
-	string  get_txt();
+	string  get_txt()const;
 
-	String* clone();
+	String* clone()const;
 
 	// String toString();
 };
@@ -57,74 +57,74 @@ public:
 ///////////////////////////////////////Employee
 class Employee: public Object{
 protected:
-	String name;
+	String* name;
 public:
-	Employee(String nam);
+	Employee();
 	virtual ~Employee();
 	virtual void workOn(CargoBay& work_place){};
 	virtual void workOn(EquipmentCompartment& work_place){};
 	virtual void workOn(PassengerCompartment& work_place){};
 
-	virtual void report(CargoBay& work_place){};
-	virtual void report(EquipmentCompartment& work_place){};
-	virtual void report(PassengerCompartment& work_place){};
-	virtual String toString();
+	virtual void report(const CargoBay& work_place){};
+	virtual void report(const EquipmentCompartment& work_place){};
+	virtual void report(const PassengerCompartment& work_place){};
+	virtual String toString()const;
 
-	virtual bool equal(Employee& sec);
-	virtual Employee* clone()=0;
+	virtual bool equal(const Employee& sec)const;
+	virtual Employee* clone()const=0;
 };
 
 ///////////////////////////////////////SecurityEmployee
 class SecurityEmployee: public Employee{//all
 public:
-	SecurityEmployee(String nam);
+	SecurityEmployee(const String& nam);
 	~SecurityEmployee();
 	void workOn(CargoBay& work_place);
 	void workOn(EquipmentCompartment& work_place);
 	void workOn(PassengerCompartment& work_place);
 
-	void report(CargoBay& work_place);
-	void report(EquipmentCompartment& work_place);
-	void report(PassengerCompartment& work_place);
+	void report(const CargoBay& work_place)const;
+	void report(const EquipmentCompartment& work_place)const;
+	void report(const PassengerCompartment& work_place)const;
 
-	String toString();
+	String toString()const;
 
-	bool equal(SecurityEmployee& sec);
-	SecurityEmployee* clone();
+	bool equal(const SecurityEmployee& sec)const;
+	SecurityEmployee* clone()const;
 };
 
 ///////////////////////////////////////MaintenanceEmployee
 class MaintenanceEmployee: public Employee{//cargobay, EquipmentCompartment
 public:
-	MaintenanceEmployee(String nam);
+	MaintenanceEmployee(const String& nam);
 	~MaintenanceEmployee();
 	void workOn(CargoBay& work_place);
 	void workOn(EquipmentCompartment& work_place);
 
-	void report(CargoBay& work_place);
-	void report(EquipmentCompartment& work_place);
+	void report(const CargoBay& work_place);
+	void report(const EquipmentCompartment& work_place);
 
-	String toString();
+	String toString()const;
 
-	bool equal(MaintenanceEmployee& sec);
-	MaintenanceEmployee* clone();
+	bool equal(const MaintenanceEmployee& sec)const;
+	MaintenanceEmployee* clone()const;
 };
 
 ///////////////////////////////////////CleaningEployee
 class CleaningEployee: public Employee{//CargoBay, PassengerCompartment
 public:
-	CleaningEployee(String nam);
+	CleaningEployee(const String nam);
 	~CleaningEployee();
 	void workOn(CargoBay& work_place);
 	void workOn(PassengerCompartment& work_place);
 
-	void report(CargoBay& work_place);
-	void report(PassengerCompartment& work_place);
+	void report(const CargoBay& work_place)const;
+	void report(const PassengerCompartment& work_place)const;
 
-	String toString();
+	String toString()const;
 
-	bool equal(CleaningEployee& sec);
-	CleaningEployee* clone();
+	bool equal(const CleaningEployee& sec)const;
+	CleaningEployee* clone()const;
 
 };
 
@@ -133,16 +133,16 @@ class PlaneComponent: public Object{
 public:
 	PlaneComponent();
 	virtual ~PlaneComponent();
-	virtual bool ready_check() = 0;
+	virtual bool ready_check()const=0;
 	virtual void process(SecurityEmployee& worker){};
 	virtual void process(CleaningEployee& worker){};
 	virtual void process(MaintenanceEmployee& worker){};
 
-	virtual String toString();
+	virtual String toString()const;
 
-	virtual bool equal(PlaneComponent& sec);
+	virtual bool equal(const PlaneComponent& sec)const;
 
-	virtual PlaneComponent* clone()=0;
+	virtual PlaneComponent* clone()const=0;
 };
 
 ///////////////////////////////////////PassengerCompartment
@@ -155,14 +155,14 @@ public:
 	PassengerCompartment();
 	PassengerCompartment(bool subs);
 	~PassengerCompartment();
-	bool ready_check();
-	String toString();
+	bool ready_check()const;
+	String toString()const;
 	void process(SecurityEmployee& worker);
 	void process(CleaningEployee& worker);
 
-	bool equal(PassengerCompartment& sec);
+	bool equal(const PassengerCompartment& sec)const;
 
-	PassengerCompartment* clone();
+	PassengerCompartment* clone()const;
 };
 
 ///////////////////////////////////////PrivateCompartment
@@ -173,14 +173,14 @@ protected:
 public:
 	PrivateCompartment();
 	~PrivateCompartment();
-	virtual bool ready_check();
-	String toString();
+	virtual bool ready_check()const;
+	String toString()const;
 	virtual void process(SecurityEmployee& worker);
 	virtual void process(CleaningEployee& worker);
 
-	bool equal(PrivateCompartment& sec);
+	bool equal(const PrivateCompartment& sec)const;
 
-	virtual PrivateCompartment* clone()=0;
+	virtual PrivateCompartment* clone()const=0;
 };
 
 ///////////////////////////////////////EquipmentCompartment
@@ -190,14 +190,14 @@ class EquipmentCompartment: public PrivateCompartment{
 public:
 	EquipmentCompartment();
 	~EquipmentCompartment();
-	bool ready_check();
-	String toString();
+	bool ready_check()const;
+	String toString()const;
 	void process(SecurityEmployee& worker);
 	void process(MaintenanceEmployee& worker);
 
-	bool equal(EquipmentCompartment& sec);
+	bool equal(const EquipmentCompartment& sec)const;
 
-	EquipmentCompartment* clone();
+	EquipmentCompartment* clone()const;
 };
 
 ///////////////////////////////////////CargoBay
@@ -209,15 +209,15 @@ class CargoBay: public PrivateCompartment{
 public:
 	CargoBay();
 	~CargoBay();
-	bool ready_check();
-	String toString();
+	bool ready_check()const;
+	String toString()const;
 	void process(SecurityEmployee& worker);
 	void process(CleaningEployee& worker);
 	void process(MaintenanceEmployee& worker);
 
-	bool equal(CargoBay& sec);
+	bool equal(const CargoBay& sec)const;
 
-	CargoBay* clone();
+	CargoBay* clone()const;
 };
 
 ///////////////////////////////////////Plane
@@ -231,18 +231,18 @@ class Plane: public Object{//anaktish twn timwn aytwn
 	EquipmentCompartment* e3;
 	PassengerCompartment** pl_PassComp;
 public:
-	Plane(String titl, int ma_pl=40);
+	Plane(const String& titl, const int ma_pl=40);
 	Plane();
 	~Plane();
-	bool ready_check();
-	String toString();
+	bool ready_check()const;
+	String toString()const;
 	void process(SecurityEmployee& worker);
 	void process(MaintenanceEmployee& worker);
 	void process(CleaningEployee& worker);
 
-	bool equal(Plane& sec);
+	bool equal(const Plane& sec)const;
 
-	Plane* clone();
+	Plane* clone()const;
 };
 
-void clone_encrypt_and_print(Object& sec);
+void clone_encrypt_and_print(const Object& sec);

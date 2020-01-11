@@ -18,3 +18,6 @@ compress: $(SOURCE)
 	rm -r $(ITEM)
 	mkdir final
 	cp * final
+
+memcheck:	compile
+	valgrind --leak-check=full ./$(ITEM)

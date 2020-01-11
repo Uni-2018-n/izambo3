@@ -52,7 +52,7 @@ int main(){
 	cout << "<clone_encrypt_and_print>" << endl;
 	clone_encrypt_and_print(my_plane);
 	cout << "</clone_encrypt_and_print>" << endl;
-
+	
 	cout << endl << "PLANE DESTRUCTOR" << endl;
 	return 0;
 }

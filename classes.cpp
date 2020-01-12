@@ -215,10 +215,10 @@ void MaintenanceEmployee::workOn(EquipmentCompartment& work_place){
 	work_place.process(*this);
 }
 
-void MaintenanceEmployee::report(const CargoBay& work_place){
+void MaintenanceEmployee::report(const CargoBay& work_place)const{
 	cout << "MaintenanceEmployee keep working on CargoBay" << endl;
 }
-void MaintenanceEmployee::report(const EquipmentCompartment& work_place){
+void MaintenanceEmployee::report(const EquipmentCompartment& work_place)const{
 	cout << "MaintenanceEmployee keep working on EquipmentCompartment" << endl;
 }
 

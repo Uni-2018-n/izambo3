@@ -101,8 +101,8 @@ public:
 	void workOn(CargoBay& work_place);
 	void workOn(EquipmentCompartment& work_place);
 
-	void report(const CargoBay& work_place);
-	void report(const EquipmentCompartment& work_place);
+	void report(const CargoBay& work_place)const;
+	void report(const EquipmentCompartment& work_place)const;
 
 	String toString()const;
 

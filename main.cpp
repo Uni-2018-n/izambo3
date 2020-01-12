@@ -1,5 +1,6 @@
-//rwta gia to {}, restore tostring of readycheck
+//rwta gia to {}
 //ask for the constructor messages of clone
+//use the getters;
 #include "classes.h"
 
 int main(){
@@ -30,16 +31,17 @@ int main(){
 	cout << "PROCESS DONE" << endl << endl;
 
 	if(my_plane.ready_check()){
-		cout << "PLANE TOSTRING:" << endl;
+		cout << endl << "PLANE TOSTRING:" << endl;
 		my_plane.toString().print();
 		cout << "Plane ready to take off!!" << endl;
 	}else{
 		cout << "Plane not ready ERROR ERROR COLLISION COLLISION " << endl << endl;
 	}
 
-	cout << endl << endl << "<CLONE>" << endl;
+
+	cout << endl << "<CLONE>" << endl;
 	Plane* test_plane= my_plane.clone();
-	cout << endl <<"test_plane : toString :" << endl;
+	cout <<"test_plane::toString:" << endl;
 	test_plane->toString().print();
 	if(test_plane->equal(my_plane)){
 		cout << "PLANES ARE EQUAL" << endl;
@@ -47,7 +49,8 @@ int main(){
 		cout << "PLANES AINT EQUAL"<< endl;
 	}
 	delete test_plane;
-	cout << "</CLONE>" << endl << endl << endl;
+	cout << "</CLONE>" << endl << endl;
+
 
 	cout << "<clone_encrypt_and_print>" << endl;
 	clone_encrypt_and_print(my_plane);

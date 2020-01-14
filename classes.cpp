@@ -19,7 +19,7 @@ Object::~Object(){
 }
 
 bool Object::equal(const Object& sec)const{
-	if(id == sec.id){
+	if(id == sec.get_id()){
 		return true;
 	}else{
 		return false;
@@ -51,7 +51,7 @@ int Object::get_id()const{
 String::String(const string temp):
 txt(temp){
 	#ifndef DEBUG
-	cout << "String just Created! with id: " << id << endl;
+	cout << "String just Created! with id: " << get_id() << endl;
 	#endif
 }
 
@@ -73,7 +73,7 @@ void String::concat(const String sec){
 	txt = txt+ sec.txt;
 }
 
-void String::concat(const string sec){
+void String::concat(const string sec){//used for convenience
 	txt=txt + sec;
 }
 
@@ -91,8 +91,8 @@ void String::print()const{
 
 String* String::clone()const{
 	String* temp= new String(txt);
-	temp->temp_id=temp_id;
-	temp->id=id;
+	temp->temp_id=get_temp_id();
+	temp->id=get_id();
 	return temp;
 }
 
@@ -121,8 +121,8 @@ Employee::~Employee(){
 }
 
 bool Employee::equal(const Employee& sec)const{
-	if(Object::equal(sec)){
-		if(name->get_txt() ==sec.name->get_txt()){
+	if(Object::equal(sec)){//check the Object::equal first
+		if(name->get_txt() ==sec.name->get_txt()){//and then check the rest
 			return true;
 		}else{
 			return false;
@@ -143,7 +143,7 @@ String* Employee::get_name()const{
 
 ///////////////////////////////////////SecurityEmployee
 SecurityEmployee::SecurityEmployee(const String& nam){
-	name= nam.clone();
+	name= nam.clone();//clone the nam to name to use for the Employee
 	#ifndef DEBUG
 	cout << "SecurityEmployee just created " << endl;
 	#endif
@@ -157,7 +157,7 @@ SecurityEmployee::~SecurityEmployee(){
 
 void SecurityEmployee::workOn(CargoBay& work_place){
 	cout << "I SecurityEmployee, started working into a Cargo Bay" << endl;
-	work_place.process(*this);
+	work_place.process(*this);//workOn calls process to change the bool variables of the PlaneComponent
 }
 void SecurityEmployee:: workOn(EquipmentCompartment& work_place){
 	cout << "I SecurityEmployee, started working into a Equipment Compartment" << endl;
@@ -189,7 +189,7 @@ bool SecurityEmployee::equal(const SecurityEmployee& sec)const{
 
 SecurityEmployee* SecurityEmployee::clone()const{
 	SecurityEmployee* temp= new SecurityEmployee(*name);
-	temp->id= id;
+	temp->id= get_id();
 	return temp;
 }
 
@@ -238,7 +238,7 @@ bool MaintenanceEmployee::equal(const MaintenanceEmployee& sec)const{
 
 MaintenanceEmployee* MaintenanceEmployee::clone()const{
 	MaintenanceEmployee* temp = new MaintenanceEmployee(*name);
-	temp->id=id;
+	temp->id=get_id();
 	return temp;
 }
 
@@ -270,12 +270,21 @@ void CleaningEmployee::workOn(PassengerCompartment& work_place){
 	work_place.process(*this);
 }
 
+void CleaningEmployee::workOn(PrivateCompartment& work_place){
+	cout << "I CleaningEmployee, started working into a Private Compartment" << endl;
+	work_place.process(*this);
+}
+
 void CleaningEmployee::report(const CargoBay& work_place)const{
 	cout << "CleaningEmployee keep working on CargoBay" << endl;
 }
 
 void CleaningEmployee::report(const PassengerCompartment& work_place)const{
-	cout << "CleaningEmployee keep working on PassengerCompartment" << endl;
+	cout << "CleaningEmployee keep working on Passenger Compartment" << endl;
+}
+
+void CleaningEmployee::report(const PrivateCompartment& work_place)const{
+	cout << "CleaningEmployee keep working on Private compartment" << endl;
 }
 
 String CleaningEmployee::toString()const{
@@ -293,7 +302,7 @@ bool CleaningEmployee::equal(const CleaningEmployee& sec)const{
 
 CleaningEmployee* CleaningEmployee::clone()const{
 	CleaningEmployee* temp= new CleaningEmployee(*name);
-	temp->id=id;
+	temp->id=get_id();
 	return temp;
 }
 
@@ -325,13 +334,13 @@ String PlaneComponent::toString()const{
 }
 
 ///////////////////////////////////////PassengerCompartment
-PassengerCompartment::PassengerCompartment(){
+PassengerCompartment::PassengerCompartment(){//constructor to create "parent" PassengerCompartment
 	SecWorker= false;
 	CleanWorker = false;
 	#ifndef DEBUG
 	cout << "PassengerCompartment just created " << endl;
 	#endif
-	if(rand() % 3 == 0){
+	if((rand() % 3) == 0){//and 1/4 chance to create a Sub PassengerCompartment
 		#ifndef DEBUG
 			cout << "Sub PassengerCompartment about to be created:" << endl;
 		#endif
@@ -341,7 +350,7 @@ PassengerCompartment::PassengerCompartment(){
 	}
 }
 
-PassengerCompartment::PassengerCompartment(bool subs){
+PassengerCompartment::PassengerCompartment(bool subs){//constructor to create only "parent" PassengerCompartment
 		SecWorker= false;
 		CleanWorker = false;
 		#ifndef DEBUG
@@ -358,13 +367,13 @@ PassengerCompartment::~PassengerCompartment(){
 }
 
 void PassengerCompartment::process(SecurityEmployee& worker){
-	if(Sub_PassCompartment != NULL){
+	if(Sub_PassCompartment != NULL){//set the worker to work on the Sub_PassCompartment if it exists
 		cout << "{Sub PassengerCompartment: ";
-		worker.workOn(*Sub_PassCompartment);
-		worker.report(*Sub_PassCompartment);
+		worker.workOn(*Sub_PassCompartment);//work
+		worker.report(*Sub_PassCompartment);//and report
 		cout << "}" << endl;
 	}
-	SecWorker= true;
+	SecWorker= true;//then set the variables for the "parent" PassengerCompartment
 }
 
 void PassengerCompartment::process(CleaningEmployee& worker){
@@ -378,9 +387,9 @@ void PassengerCompartment::process(CleaningEmployee& worker){
 }
 
 bool PassengerCompartment::equal(const PassengerCompartment& sec)const{
-	if(PlaneComponent::equal(sec)){
+	if(PlaneComponent::equal(sec)){//first check the hyper class
 		if(SecWorker == sec.SecWorker && CleanWorker == sec.CleanWorker){
-			if(Sub_PassCompartment != NULL && sec.Sub_PassCompartment != NULL){
+			if(Sub_PassCompartment != NULL && sec.Sub_PassCompartment != NULL){//then check the Sub compartments
 				return Sub_PassCompartment->equal(*(sec.Sub_PassCompartment));
 			}else{
 				return true;
@@ -392,20 +401,20 @@ bool PassengerCompartment::equal(const PassengerCompartment& sec)const{
 
 PassengerCompartment* PassengerCompartment::clone()const{
 	PassengerCompartment* temp= new PassengerCompartment(true);
-	temp->SecWorker= SecWorker;
+	temp->SecWorker= SecWorker;//clone the variable data
 	temp->CleanWorker= CleanWorker;
-	if(Sub_PassCompartment != NULL){
+	if(Sub_PassCompartment != NULL){//check and if need clone the sub compartments
 		temp->Sub_PassCompartment= Sub_PassCompartment->clone();
 	}
-	temp->id= id;
+	temp->id= get_id();//copy the id of the Object hyperclass
 	return temp;
 }
 
 bool PassengerCompartment::ready_check()const{
-	if(SecWorker && CleanWorker){
+	if(SecWorker && CleanWorker){//check if the workers have changed the variables
 		cout << "PassengerCompartment OK!" << endl;
 		toString().print();
-		if(Sub_PassCompartment != NULL){
+		if(Sub_PassCompartment != NULL){//and then ready_check the sub compartments if they exist
 			cout << "Sub: ";
 			if(!(Sub_PassCompartment->ready_check())){
 				return false;
@@ -419,7 +428,7 @@ bool PassengerCompartment::ready_check()const{
 
 String PassengerCompartment::toString()const{
 	String temp(PlaneComponent::toString().get_txt() + "PassengerCompartment, ");
-	if(SecWorker){
+	if(SecWorker){//check if the workers have worked and add it in the description of the compartment
 		temp.concat("SecurityEmployee worked here, ");
 	}else{
 		temp.concat("Need SecurityEmployee to work here, ");
@@ -429,7 +438,7 @@ String PassengerCompartment::toString()const{
 	}else{
 		temp.concat("Need CleaningEmployee to work here, ");
 	}
-	if(Sub_PassCompartment != NULL){
+	if(Sub_PassCompartment != NULL){//also add the description of the Sub compartments
 		temp.concat("\n	{Sub_PassCompartment, " + Sub_PassCompartment->toString().get_txt() + "}");
 	}else{
 		temp.concat("No Sub_PassCompartment.");
@@ -464,7 +473,6 @@ PrivateCompartment::~PrivateCompartment(){
 	#endif
 }
 
-
 void PrivateCompartment::process(SecurityEmployee& worker){
 	SecWorker = true;
 }
@@ -484,7 +492,6 @@ bool PrivateCompartment::equal(const PrivateCompartment& sec)const{
 
 bool PrivateCompartment::ready_check()const{
 	if(SecWorker && CleanWorker){
-		//toString().print();
 		cout << "PrivateCompartment OK!" << endl;
 		return true;
 	}else{
@@ -531,6 +538,7 @@ EquipmentCompartment::~EquipmentCompartment(){
 }
 
 void EquipmentCompartment::process(SecurityEmployee& worker){
+	PrivateCompartment::process(worker);//work into the PrivateCompartment
 	SecWorker= true;
 }
 
@@ -538,8 +546,12 @@ void 	EquipmentCompartment::process(MaintenanceEmployee& worker){
 	MaintWorker = true;
 }
 
+void EquipmentCompartment::process(CleaningEmployee& worker){//since CleanWorkers dont need to work on EquipmentCompartments but they need to work
+	PrivateCompartment::process(worker);//into a PrivateCompartment
+}
+
 bool EquipmentCompartment::equal(const EquipmentCompartment& sec)const{
-	if(PlaneComponent::equal(sec)){
+	if(PrivateCompartment::equal(sec)){//first check the hyperclass and then the current class
 		if(SecWorker == sec.SecWorker && MaintWorker == sec.MaintWorker){
 			return true;
 		}
@@ -551,24 +563,28 @@ EquipmentCompartment* EquipmentCompartment::clone()const{
 	EquipmentCompartment* temp = new EquipmentCompartment;
 	temp->SecWorker = SecWorker;
 	temp->MaintWorker = MaintWorker;
-	temp->PrivateCompartment::SecWorker = PrivateCompartment::SecWorker;
+	temp->PrivateCompartment::SecWorker = PrivateCompartment::SecWorker;//copy the variables for the Hyper class
 	temp->PrivateCompartment::CleanWorker = PrivateCompartment::CleanWorker;
-	temp->id= id;
+	temp->id= get_id();
 	return temp;
 }
 
 bool EquipmentCompartment::ready_check()const{
-	if(SecWorker && MaintWorker){
-		cout << "EquipmentCompartment OK!" << endl;
-		toString().print();
-		return true;
+	if(PrivateCompartment::ready_check()){
+		if(SecWorker && MaintWorker){
+			cout << "EquipmentCompartment OK!" << endl;
+			toString().print();
+			return true;
+		}else{
+			return false;
+		}
 	}else{
 		return false;
 	}
 }
 
 String EquipmentCompartment::toString()const{
-	String temp(PlaneComponent::toString().get_txt() + "EquipmentCompartment, ");
+	String temp(PrivateCompartment::toString().get_txt() + "EquipmentCompartment, ");
 	if(SecWorker){
 		temp.concat("SecurityEmployee worked here, ");
 	}else{
@@ -600,7 +616,6 @@ CargoBay::CargoBay(){
 	cout << "Equipment_space is about to be created:" << endl;
 	#endif
 	equipment_space= new EquipmentCompartment();
-
 }
 
 CargoBay::~CargoBay(){
@@ -611,13 +626,16 @@ CargoBay::~CargoBay(){
 }
 
 void CargoBay::process(SecurityEmployee& worker){
-	cout << "Equipment_space of CargoBay: ";
+	PrivateCompartment::process(worker);//work on PrivateCompartment
+	cout << "Equipment_space of CargoBay: ";//then the Sub Equipment_space
 	worker.workOn(*equipment_space);
 	worker.report(*equipment_space);
 	SecWorker = true;
 }
 
 void CargoBay::process(CleaningEmployee& worker){
+	PrivateCompartment::process(worker);//Work on PrivateCompartment
+	equipment_space->PrivateCompartment::process(worker);//then work on PrivateCompartment of Sub Equipment_space
 	CleanWorker = true;
 }
 
@@ -629,7 +647,7 @@ void CargoBay::process(MaintenanceEmployee& worker){
 }
 
 bool CargoBay::equal(const CargoBay& sec)const{
-	if(PlaneComponent::equal(sec)){
+	if(PrivateCompartment::equal(sec)){
 		if(SecWorker == sec.SecWorker && CleanWorker == sec.CleanWorker && MaintWorker == sec.MaintWorker){
 			if(equipment_space->equal(*(sec.equipment_space))){
 				return true;
@@ -640,7 +658,7 @@ bool CargoBay::equal(const CargoBay& sec)const{
 }
 
 String CargoBay::toString()const{
-	String temp(PlaneComponent::toString().get_txt() + "CargoBay, ");
+	String temp(PrivateCompartment::toString().get_txt() + "CargoBay, ");
 
 	if(SecWorker){
 		temp.concat("SecurityEmployee worked here, ");
@@ -662,15 +680,19 @@ String CargoBay::toString()const{
 }
 
 bool CargoBay::ready_check()const{
-	if(equipment_space->ready_check()){
-		if(SecWorker && CleanWorker && MaintWorker){
-			cout << "CargoBay OK!" << endl;
-			toString().print();
-			return true;
+	if(PrivateCompartment::ready_check()){
+		if(equipment_space->ready_check()){
+			if(SecWorker && CleanWorker && MaintWorker){
+				cout << "CargoBay OK!" << endl;
+				toString().print();
+				return true;
+			}else{
+				return false;
+			}
 		}else{
 			return false;
 		}
-	}else{
+	}else {
 		return false;
 	}
 }
@@ -684,7 +706,7 @@ CargoBay* CargoBay::clone()const{
 	temp->equipment_space = equipment_space->clone();
 	temp->PrivateCompartment::SecWorker = PrivateCompartment::SecWorker;
 	temp->PrivateCompartment::CleanWorker = PrivateCompartment::CleanWorker;
-	temp->id= id;
+	temp->id= get_id();
 	return temp;
 }
 
@@ -705,7 +727,7 @@ bool CargoBay::get_MaintWork()const{
 }
 
 ///////////////////////////////////////Plane
-Plane::Plane(const String& titl, const int ma_pl):
+Plane::Plane(const String& titl, const int ma_pl)://normal constractor
 max_pl(ma_pl){
 	#ifndef DEBUG
 	cout << "Plane just created ";
@@ -745,7 +767,7 @@ max_pl(ma_pl){
 	}
 }
 
-Plane::Plane(){
+Plane::Plane(){//constructor used on clone
 	#ifndef DEBUG
 	cout << "Plane just created ";
 	#endif
@@ -767,13 +789,13 @@ Plane::~Plane(){
 	#endif
 }
 
-void Plane::process(SecurityEmployee& worker){//explain oti apo to lists
-	if(!cargo->ready_check()){
-		worker.workOn(*cargo);
-		worker.report(*cargo);
+void Plane::process(SecurityEmployee& worker){
+	if(!cargo->ready_check()){//check every sub compartment if its ready or not
+		worker.workOn(*cargo);//if not worker must work here
+		worker.report(*cargo);//and report were worked
 	}
-	if(!e1->ready_check()){
-		worker.workOn(*e1);
+	if(!e1->ready_check()){//since one worker can work on all the PlaneComponents
+		worker.workOn(*e1); //continue with the next component(this was explained in the forum)
 		worker.report(*e1);
 	}
 	if(!e2->ready_check()){
@@ -814,6 +836,18 @@ void Plane::process(CleaningEmployee& worker){
 	if(!cargo->ready_check()){
 		worker.workOn(*cargo);
 		worker.report(*cargo);
+	}
+	if(!e1->ready_check()){
+		worker.workOn(*e1);
+		worker.report(*e1);
+	}
+	if(!e2->ready_check()){
+		worker.workOn(*e2);
+		worker.report(*e2);
+	}
+	if(!e3->ready_check()){
+		worker.workOn(*e3);
+		worker.report(*e3);
 	}
 	for(int i=0;i<size_PassComp;i++){
 		if(!pl_PassComp[i]->ready_check()){
@@ -872,8 +906,8 @@ String Plane::toString()const{
 }
 
 Plane* Plane::clone()const{
-	Plane* temp= new Plane();
-	temp->title = title->clone();
+	Plane* temp= new Plane();//create a plane with no sub components
+	temp->title = title->clone();//clone the components
 	temp->max_pl = max_pl;
 	temp->size_PassComp = size_PassComp;
 	temp->cargo=cargo->clone();
@@ -884,7 +918,7 @@ Plane* Plane::clone()const{
 	for(int i=0;i<temp->size_PassComp;i++){
 		temp->pl_PassComp[i]= pl_PassComp[i]->clone();
 	}
-	temp->id= id;
+	temp->id= get_id();
 	return temp;
 }
 
@@ -925,13 +959,13 @@ void clone_encrypt_and_print(const Object& sec){
 	String tempSTR= temp->toString();
 	String secSTR= sec.toString();
 
-	int rand_how_many = rand() % tempSTR.length();
+	int rand_how_many = rand() % tempSTR.length();//find how many of the characters will get replaced
 	int change;
 	int from;
 	for(int i=0;i<rand_how_many;i++){
-		change= rand()% (tempSTR.length() - 1);
+		change= rand()% (tempSTR.length() - 1);//can change every character except the '\0'
 		from = rand()% (tempSTR.length() - 1);
-		tempSTR.updateAt(change, tempSTR.at(from));
+		tempSTR.updateAt(change, tempSTR.at(from));//change it
 	}
 	cout << endl << "tempSTR: ";
 	tempSTR.print();

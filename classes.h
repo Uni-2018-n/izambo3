@@ -20,7 +20,7 @@ class Plane;
 ///////////////////////////////////////Object
 class Object{
 protected:
-	static int temp_id;
+	static int temp_id;//temp_id is used as a static variable to get the id values for the objects
 	int id;
 public:
 	Object();
@@ -122,9 +122,11 @@ public:
 
 	void workOn(CargoBay& work_place);
 	void workOn(PassengerCompartment& work_place);
+	void workOn(PrivateCompartment& work_place);
 
 	void report(const CargoBay& work_place)const;
 	void report(const PassengerCompartment& work_place)const;
+	void report(const PrivateCompartment& work_place)const;
 
 	String toString()const;
 
@@ -202,6 +204,7 @@ public:
 
 	void process(SecurityEmployee& worker);
 	void process(MaintenanceEmployee& worker);
+	void process(CleaningEmployee& worker);
 
 	bool equal(const EquipmentCompartment& sec)const;
 	EquipmentCompartment* clone()const;
@@ -238,7 +241,7 @@ public:
 };
 
 ///////////////////////////////////////Plane
-class Plane: public Object{//anaktish twn timwn aytwn
+class Plane: public Object{
 	String* title;
 	int max_pl;
 	int size_PassComp;

@@ -635,7 +635,7 @@ void CargoBay::process(SecurityEmployee& worker){
 
 void CargoBay::process(CleaningEmployee& worker){
 	PrivateCompartment::process(worker);//Work on PrivateCompartment
-	equipment_space->PrivateCompartment::process(worker);//then work on PrivateCompartment of Sub Equipment_space
+	equipment_space->process(worker);//then work on PrivateCompartment of Sub Equipment_space
 	CleanWorker = true;
 }
 

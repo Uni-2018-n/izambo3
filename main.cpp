@@ -1,5 +1,3 @@
-//ask for the constructor messages of clone
-//use the getters;
 #include "classes.h"
 
 int main(){

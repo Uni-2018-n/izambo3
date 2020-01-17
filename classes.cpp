@@ -760,7 +760,6 @@ max_pl(ma_pl){
 	cout << "E3 DONE" << endl;
 	#endif
 
-
 	float temp = max_pl/75.0;
 	if(temp == (int)temp){
 		size_PassComp = (int)temp;
@@ -841,6 +840,7 @@ void Plane::process(MaintenanceEmployee& worker){
 		worker.report(*e3);
 	}
 }
+
 void Plane::process(CleaningEmployee& worker){
 	if(!cargo->ready_check()){
 		worker.workOn(*cargo);
@@ -934,24 +934,31 @@ Plane* Plane::clone()const{
 String* Plane::get_title()const{
 	return title;
 }
+
 int Plane::get_max_pl()const{
 	return max_pl;
 }
+
 int Plane::get_size_passcomp()const{
 	return size_PassComp;
 }
+
 CargoBay* Plane::get_cargo()const{
 	return cargo;
 }
+
 EquipmentCompartment* Plane::get_e1()const{
 	return e1;
 }
+
 EquipmentCompartment* Plane::get_e2()const{
 	return e2;
 }
+
 EquipmentCompartment* Plane::get_e3()const{
 	return e3;
 }
+
 PassengerCompartment** Plane::get_pl_passcomp()const{
 	return pl_PassComp;
 }

@@ -149,7 +149,15 @@ SecurityEmployee keep working on EquipmentCompartment//report απο την Carg
 SecurityEmployee keep working on CargoBay//report απο την Plane::process για την CargoBay
 
 I SecurityEmployee, started working into a Passenger Compartment//workOn απο την Plane::process για την PassengerCompartment
-{Sub PassengerCompartment: I SecurityEmployee, started working into a Passenger Compartment //workOn απο την PassengerCompartment::workOn
-SecurityEmployee keep working on PassengerCompartment
-}
-SecurityEmployee keep working on PassengerCompartment
+{Sub PassengerCompartment: I SecurityEmployee, started working into a Passenger Compartment //workOn απο την PassengerCompartment::workOn για τον υποχωρο της PassengerCompartment
+SecurityEmployee keep working on PassengerCompartment //report απο την PassengerCompartment::workOn για τον υποχωρο της PassengerCompartment
+}/ενδιξη οτι τελειωσε ο υποχωρος της PassengerCompartment
+SecurityEmployee keep working on PassengerCompartment //report απο την Plane::process για την PassengerCompartment
+
+
+Για ready_check:
+PrivateCompartment OK!//ready_check απο το PrivateCompartment κομματι της CargoBay
+PrivateCompartment OK!//ready_check απο το PrivateCompartment κομματι της EquipmentCompartment της CargoBay
+EquipmentCompartment OK!//ready_check απο την EquipmentCompartment της CargoBay
+<Description of CargoBay>
+CargoBay OK!//ready_check απο την CargoBay

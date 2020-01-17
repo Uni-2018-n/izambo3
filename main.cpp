@@ -1,5 +1,6 @@
 //ask for the constructor messages of clone
 //use the getters;
+//check EquipmentCompartment ready_check
 #include "classes.h"
 
 int main(){

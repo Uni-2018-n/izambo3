@@ -53,6 +53,7 @@ public:
 	String* clone()const;
 	String toString()const;
 	string  get_txt()const;
+	bool equal(const String& sec)const;
 };
 
 ///////////////////////////////////////Employee

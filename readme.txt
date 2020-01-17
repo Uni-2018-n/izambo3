@@ -11,7 +11,8 @@
 την καταληλη boolean τιμη.
 Η Object::identical ελεγχει αν δυο αντικειμενα εχουν την ιδια θεση μνημης. Η συναρτηση αυτη δεν ειναι virtual
 γιατι αν το Object κομματι της κλασης ειναι στην ιδια θεση μνημης τοτε και το υπολοιπο θα ειναι.
-Η Object::clone..........................
+Η Object::clone ειναι pure virtual γιατι οι υποπλασεις της μπορουν και κανουν clone και το κομματι
+της υπερκλασης τους.
 
 
 
@@ -26,7 +27,7 @@
 Τελος επιστρεφει το temp για να γινει η αναθεση του.
 Η String::toString, δημιουργει ενα String temp το οποιο περνει σαν ορισμα την περιγραφη της υπερκλασης(Object::toString)
 πλας την περιγραφη του String κομματιου της κλασης.
-Η String::equal.........................
+Η String::equal ελεγχει πρωτα την υπερκλαση της και μετα το δικο της μελος
 
 
 
@@ -40,7 +41,8 @@
 αρα για να μην υπαρχει ο περιορισμος ειναι κενες virtual συναρτησεις.
 Η Employee::toString δημιουργει εναν String temp ο οποιος περνει ως ορισμα την περιγραφη της υπερκλασης της και προσθετει
 το δικο της κομματι της περιγραφης και το επιστρεφει.
-Η Employee::clone...........................
+Η Employee::clone ειναι pure virtual γιατι οι υποπλασεις της μπορουν και κανουν clone και το κομματι
+της υπερκλασης τους.
 
 Για την class SecurityEmployee:
 Υποκλαση της Employee, κατα την δημιουργια της περνει ως ορισμα μια αναφορα σε String και το κανει clone στην Employee::name
@@ -112,3 +114,42 @@ equal για τον υποχωρο αν αυτος υπαρχει και επι�
 Η CargoBay::clone αντιγραφει επισης και τις τιμες της υπερκλασης της και καλει την clone για την equipment_space.
 
 Για την κλαση Plane:
+υποκλαση της Object, εχει δυο constructor, εναν για το κανονικο ο οποιος αρχικοποιει τα μελη του Plane και εναν που χρησιμοποιειται στην
+Plane::clone, δηλαδη ενα κενο αντικειμενο χωρις αρχικοποιηση.
+Στον πρωτο constructor υπαρχει και η υλοποιηση για το ποσα PassengerCompartment χρειαζονται στο αεροπλανο. Αυτο ειναι αναλογα με το πληθος των
+επιβατων, καθε PassengerCompartment(ανεξαρτιτος αν εχει sub ή οχι) μπορει να χωρεσει εως και 75 ατομα, γιαυτο αναλογα αν χρειαζονται ή οχι φτιαχνει
+και παραπανω απο 1 PassengerCompartment στον array pl_PassComp.
+Το εξτρα μελος του class Plane, το size_PassComp ειναι μια μεταβλητη η οποια καθοριζει το ποσα PassengerCompartment υπαρχουν στον πινακα pl_PassComp
+Οι Plane::process ελεγχουν τα μελη του Plane ειναι ready ή οχι, αν οχι βαζει τον εργαζομενο να δουλεψει εκει και καλει την report. Οταν τελειωσει απο το
+καθε μερος συνεχιζει στο επομενο.
+Για την Plane::process(CleaningEmployee), ο εργαζομενος δουλευει και στις EquipmentCompartment ωστε να ειναι ready απο το κομματι του PrivateCompartment.
+Η Plane::equal ελεγχει αν ειναι equal τα μελη του καλωντας επισης και τις equal των κλασεων αν χρειαζεται και τελος καλει και την equal της υπερκλασης της.
+Η Plane::ready_check ελεγχει αν ειναι ready τα μελη του αεροπλανου και αν ναι τοτε επιστρεφει την καταληλη boolean τιμη.
+Η Plane::toString συγχωνευει τις περιγραφες της υπερκλασης της Plane, των μελων της και την δικια της περιγραφη και την επιστρεφει.
+Η Plane::clone αντιγραφει με την χρηση της συναρτησης ::clone για καθε κλαση που χρειαζεται και αντιγραφει και τα δεομενα του αεροπλανου.
+
+Η συναρτηση clone_encrypt_and_print, περνει ως ορισμα μια αναφορα σε Object και την αντιγραφει σε μια temp μεταβλητη.
+Μετα ελεγχει αν ειναι ισα και επιστρεφει το καταληλο μηνυμα.
+Φτιαχνει αλλες δυο tempSTR με τις περιγραφες τους.
+Για το κομματι της encrypt:
+βρησκει πρωτα μια τυχαια τιμη αναμεσα στο 0 και στο μεγηστο πληθος χαρακτηρων της περιγραφης της temp για το ποσοι χαρακτηρες θα αλλαξουν
+Μεσα στην for η οποια εχει επαναληψεις οσες και οι χαρακτηρες που θα αλλαξουν
+διαλεγει τυχαια ποιον χαρακτηρα να αλλαξει και διαλεγει τυχαια σε ποιον χαρακτηρα να μετατραπει και καλει την συναρτηση String::updateAt
+και μετατρεπει τον χαρακτηρα.
+
+επειτα εκτυπωνει την αλαγμενη περιγραφη και την παλια περιγραφη, τις συνενονει, εκτυπωνει το μηκος της μετα την εννοση.
+Εκτυπωνει τον μεσαιο χαρακτηρα ή τους μεσαιους χαρακτηρες αναλογα αν ειναι μονο ή ζυγο το πληθος των χαρακτηρων μετα την συνενωση
+κανει clear και εκτυπωνει το length της.
+
+Output specifications:
+Για οταν ειναι να δουλεψουν οι Εργατες και εχουν υποχωρους:
+I SecurityEmployee, started working into a Cargo Bay //Workon απο την Plane::process για την CargoBay
+Equipment_space of CargoBay: I SecurityEmployee, started working into a Equipment Compartment //workOn απο την CargoBay::workOn για την EquipmentCompartment
+SecurityEmployee keep working on EquipmentCompartment//report απο την CargoBay::workOn για την EquipmentCompartment
+SecurityEmployee keep working on CargoBay//report απο την Plane::process για την CargoBay
+
+I SecurityEmployee, started working into a Passenger Compartment//workOn απο την Plane::process για την PassengerCompartment
+{Sub PassengerCompartment: I SecurityEmployee, started working into a Passenger Compartment //workOn απο την PassengerCompartment::workOn
+SecurityEmployee keep working on PassengerCompartment
+}
+SecurityEmployee keep working on PassengerCompartment

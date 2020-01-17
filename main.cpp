@@ -1,12 +1,11 @@
 //ask for the constructor messages of clone
 //use the getters;
-//string equal
 #include "classes.h"
 
 int main(){
 	srand(time(NULL));
-	String plane_Title("Daboing1");
-	Plane my_plane(plane_Title);
+	String plane_Title("Zephyr One");
+	Plane my_plane(plane_Title, 200);
 	cout << "PLANE CONSTRUCTOR DONE" << endl << endl;
 
 	String SecEmp_Title("BIll");

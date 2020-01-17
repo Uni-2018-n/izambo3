@@ -1,6 +1,6 @@
 #include "classes.h"
 
-#define DEBUG
+//#define DEBUG
 
 int Object::temp_id=0;
 
@@ -103,6 +103,15 @@ String String::toString()const{
 
 string String::get_txt()const{
 	return txt;
+}
+
+bool String::equal(const String& sec)const{
+	if(Object::equal(sec)){
+		if(txt == sec.txt){
+			return true;
+		}
+	}
+	return false;
 }
 
 ///////////////////////////////////////Employee

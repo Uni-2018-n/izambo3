@@ -1,5 +1,8 @@
 Αντωνης Καλαμακης SDI1800056
 
+compile: g++ -std=c++11 -o main main.cpp classes.cpp
+
+
 για λόγους δοκιμών και ευκολία ανάγνωσης του output χρησιμοποιώ την DEBUG για να εμφανίζω ή όχι
 τα μηνύματα των constructor
 
